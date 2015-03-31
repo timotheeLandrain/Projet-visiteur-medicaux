@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** 
  * Contient la division pour le sommaire, sujet à des variations suivant la 
  * connexion ou non d'un utilisateur, et dans l'avenir, suivant le type de cet utilisateur 
@@ -42,6 +42,9 @@
            <li class="smenu">
               <a href="cConsultFichesFrais.php" title="Consultation de mes fiches de frais">Mes fiches de frais</a>
            </li>
+		   <li class="smenu">
+			  <a href="AjouterUnVisiteur.php" title="Ajouter un Visiteur">Ajouter un Visiteur</a>
+		    </li>  
          </ul>
         <?php
           // affichage des éventuelles erreurs déjà détectées

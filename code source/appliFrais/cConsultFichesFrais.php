@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** 
  * Script de contrôle et d'affichage du cas d'utilisation "Consulter une fiche de frais"
  * @package default
