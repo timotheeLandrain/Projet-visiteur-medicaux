@@ -24,11 +24,18 @@
 		?>
 		<FORM action='cListeVisiteurs.php' method=POST>
 		<table align=center, border="1">
-			<tr>
-				<td>
-					<b>Nom</b>
-				</td>
-			</tr>
+			<td>
+				<b>Nom</b>
+			</td>
+			<td>
+				<b>Prenom</b>
+			</td>
+			<td>
+				<b>Ville</b>
+			</td>
+			<td>
+				<b>Cabinet</b>
+			</td>
 		<?php
 		while ($data = mysqli_fetch_array($reqliste)) {
 		?>
@@ -36,6 +43,21 @@
 				<td>
 				<?php
 					echo $data['nom'].'<br />';
+				?>
+				</td>
+				<td>
+				<?php
+					echo $data['prenom'].'<br />';
+				?>
+				</td>
+				<td>
+				<?php
+					echo $data['ville'].'<br />';
+				?>
+				</td>
+				<td>
+				<?php
+					echo 'None<br />';
 				?>
 				</td>
 			</tr>
