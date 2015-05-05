@@ -45,6 +45,9 @@
 		   <li class="smenu">
 			  <a href="AjouterUnVisiteur.php" title="Ajouter un Visiteur">Ajouter un Visiteur</a>
 		    </li>  
+           <li class="smenu">
+              <a href="cListeVisiteurs.php" title="Consultation des visiteurs">Les visiteurs</a>
+           </li>
          </ul>
         <?php
           // affichage des éventuelles erreurs déjà détectées
