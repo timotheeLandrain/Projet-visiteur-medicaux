@@ -16,10 +16,10 @@
   // affectation du mois courant pour la saisie des fiches de frais
   $mois = sprintf("%04d%02d", date("Y"), date("m"));
   // vérification de l'existence de la fiche de frais pour ce mois courant
-  $existeFicheFrais = existeFicheFrais($idConnexion, $mois, obtenirIdUserConnecte());
+  $existeFicheFrais = existeFicheFrais($mois, obtenirIdUserConnecte());
   // si elle n'existe pas, on la crée avec les élets frais forfaitisés à 0
   if ( !$existeFicheFrais ) {
-      ajouterFicheFrais($idConnexion, $mois, obtenirIdUserConnecte());
+      ajouterFicheFrais($mois, obtenirIdUserConnecte());
   }
   // acquisition des données entrées
   // acquisition de l'étape du traitement 
@@ -45,13 +45,13 @@
       }
   }                                                       
   elseif ($etape == "validerSuppressionLigneHF") {
-      supprimerLigneHF($idConnexion, $idLigneHF);
+      supprimerLigneHF($idLigneHF);
   }
   elseif ($etape == "validerAjoutLigneHF") {
       verifierLigneFraisHF($dateHF, $libelleHF, $montantHF, $tabErreurs);
       if ( nbErreurs($tabErreurs) == 0 ) {
           // la nouvelle ligne ligne doit être ajoutée dans la base de données
-          ajouterLigneHF($idConnexion, $mois, obtenirIdUserConnecte(), $dateHF, $libelleHF, $montantHF);
+          ajouterLigneHF($mois, obtenirIdUserConnecte(), $dateHF, $libelleHF, $montantHF);
       }
   }
   else { // on ne fait rien, étape non prévue 
@@ -83,9 +83,8 @@
             // demande de la requête pour obtenir la liste des éléments 
             // forfaitisés du visiteur connecté pour le mois demandé
             $req = obtenirReqEltsForfaitFicheFrais($mois, obtenirIdUserConnecte());
-            $idJeuEltsFraisForfait = mysql_query($req, $idConnexion);
-            echo mysql_error($idConnexion);
-            $lgEltForfait = mysql_fetch_assoc($idJeuEltsFraisForfait);
+            $idJeuEltsFraisForfait = mysqli_query(connecterServeurBD(), $req);
+            $lgEltForfait = mysqli_fetch_assoc($idJeuEltsFraisForfait);
             while ( is_array($lgEltForfait) ) {
                 $idFraisForfait = $lgEltForfait["idFraisForfait"];
                 $libelle = $lgEltForfait["libelle"];
@@ -100,9 +99,9 @@
                     value="<?php echo $quantite; ?>" />
             </p>
             <?php        
-                $lgEltForfait = mysql_fetch_assoc($idJeuEltsFraisForfait);   
+                $lgEltForfait = mysqli_fetch_assoc($idJeuEltsFraisForfait);   
             }
-            mysql_free_result($idJeuEltsFraisForfait);
+            mysqli_free_result($idJeuEltsFraisForfait);
             ?>
           </fieldset>
       </div>
@@ -128,8 +127,8 @@
           // demande de la requête pour obtenir la liste des éléments hors
           // forfait du visiteur connecté pour le mois demandé
           $req = obtenirReqEltsHorsForfaitFicheFrais($mois, obtenirIdUserConnecte());
-          $idJeuEltsHorsForfait = mysql_query($req, $idConnexion);
-          $lgEltHorsForfait = mysql_fetch_assoc($idJeuEltsHorsForfait);
+          $idJeuEltsHorsForfait = mysqli_query(connecterServeurBD(), $req);
+          $lgEltHorsForfait = mysqli_fetch_assoc($idJeuEltsHorsForfait);
           
           // parcours des frais hors forfait du visiteur connecté
           while ( is_array($lgEltHorsForfait) ) {
@@ -143,9 +142,9 @@
                        title="Supprimer la ligne de frais hors forfait">Supprimer</a></td>
               </tr>
           <?php
-              $lgEltHorsForfait = mysql_fetch_assoc($idJeuEltsHorsForfait);
+              $lgEltHorsForfait = mysqli_fetch_assoc($idJeuEltsHorsForfait);
           }
-          mysql_free_result($idJeuEltsHorsForfait);
+          mysqli_free_result($idJeuEltsHorsForfait);
 ?>
     </table>
       <form action="" method="post">

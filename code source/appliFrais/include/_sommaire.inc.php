@@ -12,7 +12,7 @@
     <?php      
       if (estVisiteurConnecte() ) {
           $idUser = obtenirIdUserConnecte() ;
-          $lgUser = obtenirDetailVisiteur($idConnexion, $idUser);
+          $lgUser = obtenirDetailVisiteur($idUser);
           $nom = $lgUser['nom'];
           $prenom = $lgUser['prenom'];            
     ?>
