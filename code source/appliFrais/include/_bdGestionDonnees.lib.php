@@ -1,4 +1,4 @@
-<?php
+u<?php
 /** 
  * Regroupe les fonctions d'accès aux données.
  * @package default
@@ -343,6 +343,15 @@ function modifierEtatFicheFrais($unMois, $unIdVisiteur, $unEtat) {
 
 function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unId, $unMdp) {
 	$unNom=filtrerChainePourBD($unNom);
+	$unPrenom=filtrerChainePourBD($unPrenom);
+	$uneAdresse=filtrerChainePourBD($uneAdresse);
+	$uneVille=filtrerChainePourBD($uneVille);
+	$unCP=filtrerChainePourBD($unCP);
+	$unId=filtrerChainePourBD($unId);
+	$unMdp=filtrerChainePourBD($unMdp);
+	
+	$requete = "insert into visiteur(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
+	mysqli_query($requete);
 	
 	
 }             
