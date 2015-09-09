@@ -351,11 +351,11 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unMdp=filtrerChainePourBD($unMdp);
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
 	
-<<<<<<< HEAD
+
 	$requete = "insert into visiteur(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
-=======
+
 	$requete = "insert into visiteur(nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
->>>>>>> origin/master
+
 	mysqli_query(connecterServeurBD(),$requete);
 	
 	
