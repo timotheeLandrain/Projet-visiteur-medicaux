@@ -248,7 +248,7 @@ function obtenirReqEltsHorsForfaitFicheFrais($unMois, $unIdVisiteur) {
  */
 function supprimerLigneHF($unIdLigneHF) {
     $requete = "delete from LigneFraisHorsForfait where id = " . $unIdLigneHF;
-    mysqli_query($requete);
+    mysqli_query(connecterServeurBD(),$requete);
 }
 
 /**
@@ -270,7 +270,7 @@ function ajouterLigneHF($unMois, $unIdVisiteur, $uneDateHF, $unLibelleHF, $unMon
     $unMois = filtrerChainePourBD($unMois);
     $requete = "insert into LigneFraisHorsForfait(idVisiteur, mois, date, libelle, montant) 
                 values ('" . $unIdVisiteur . "','" . $unMois . "','" . $uneDateHF . "','" . $unLibelleHF . "'," . $unMontantHF .")";
-    mysqli_query($requete);
+    mysqli_query(connecterServeurBD(),$requete);
 }
 
 /**
@@ -294,7 +294,7 @@ function modifierEltsForfait($unMois, $unIdVisiteur, $desEltsForfait) {
         $requete = "update LigneFraisForfait set quantite = " . $quantite 
                     . " where idVisiteur = '" . $unIdVisiteur . "' and mois = '"
                     . $unMois . "' and idFraisForfait='" . $idFraisForfait . "'";
-      mysqli_query($requete);
+      mysqli_query(connecterServeurBD(),$requete);
     }
 }
 
@@ -338,7 +338,7 @@ function modifierEtatFicheFrais($unMois, $unIdVisiteur, $unEtat) {
     $requete = "update FicheFrais set idEtat = '" . $unEtat . 
                "', dateModif = now() where idVisiteur ='" .
                $unIdVisiteur . "' and mois = '". $unMois . "'";
-    mysqli_query($requete);
+    mysqli_query(connecterServeurBD(),$requete);
 }
 
 function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unId, $unMdp) {
@@ -351,7 +351,7 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unMdp=filtrerChainePourBD($unMdp);
 	
 	$requete = "insert into visiteur(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
-	mysqli_query($requete);
+	mysqli_query(connecterServeurBD(),$requete);
 	
 	
 }             
