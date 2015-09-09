@@ -1,4 +1,4 @@
-u<?php
+<?php
 /** 
  * Regroupe les fonctions d'accès aux données.
  * @package default
@@ -341,16 +341,21 @@ function modifierEtatFicheFrais($unMois, $unIdVisiteur, $unEtat) {
     mysqli_query(connecterServeurBD(),$requete);
 }
 
-function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unId, $unMdp) {
+function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp) {
 	$unNom=filtrerChainePourBD($unNom);
 	$unPrenom=filtrerChainePourBD($unPrenom);
 	$uneAdresse=filtrerChainePourBD($uneAdresse);
 	$uneVille=filtrerChainePourBD($uneVille);
 	$unCP=filtrerChainePourBD($unCP);
-	$unId=filtrerChainePourBD($unId);
+	$unLogin=filtrerChainePourBD($unLogin);
 	$unMdp=filtrerChainePourBD($unMdp);
+	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
 	
+<<<<<<< HEAD
 	$requete = "insert into visiteur(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
+=======
+	$requete = "insert into visiteur(nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
+>>>>>>> origin/master
 	mysqli_query(connecterServeurBD(),$requete);
 	
 	
