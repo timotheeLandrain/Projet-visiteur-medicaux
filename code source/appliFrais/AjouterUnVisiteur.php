@@ -21,8 +21,11 @@
   $unCP = lireDonnee("codepostale", "");
   $uneDateEmbauche = lireDonnee("dateembauche", "");
   $unMdp= lireDonnee("motdepasse", "");
-  $unId="";
-  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unId, $unMdp);
+  $unLogin="plop";
+  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
+  
+  echo $unNom.$unPrenom.$uneAdresse.$uneVille.$unCP.$uneDateEmbauche.$unMdp.$unLogin;
+  
   ?>
     <!-- Division principale -->
   <div id="contenu">
