@@ -60,7 +60,7 @@ function filtrerChainePourBD($str) {
  */
 function obtenirDetailVisiteur($unId) {
     $id = filtrerChainePourBD($unId);
-    $requete = "select id, nom, prenom from visiteur where id='" . $unId . "'";
+    $requete = "select id, nom, prenom from personnel where id='" . $unId . "'";
     $idJeuRes = mysqli_query(connecterServeurBD(),$requete);  
     $ligne = false;     
     if ( $idJeuRes ) {
@@ -313,7 +313,7 @@ function verifierInfosConnexion($unLogin, $unMdp) {
     $unLogin = filtrerChainePourBD($unLogin);
     $unMdp = filtrerChainePourBD($unMdp);
     // le mot de passe est crypté dans la base avec la fonction de hachage md5
-    $req = "select id, nom, prenom, login, mdp from Visiteur where login='".$unLogin."' and mdp='" . $unMdp . "'";
+    $req = "select id, nom, prenom, login, mdp from personnel where login='".$unLogin."' and mdp='" . $unMdp . "'";
     $idJeuRes = mysqli_query(connecterServeurBD(),$req);
     $ligne = false;
     if ( $idJeuRes ) {
@@ -352,7 +352,12 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
 	
 
-	$requete = "insert into visiteur(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('t32','" .$unNom."','" .$unPrenom."','" .$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','" .$uneDateEmbauche."')";
+
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
+
+	$requete = "insert into visiteur(id) values('".$unId."')";
+
+
 
 	mysqli_query(connecterServeurBD(),$requete);	
 }  
