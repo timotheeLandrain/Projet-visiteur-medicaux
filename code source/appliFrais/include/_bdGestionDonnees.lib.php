@@ -351,6 +351,7 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unMdp=filtrerChainePourBD($unMdp);
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
 	
+	
 
 	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
 
