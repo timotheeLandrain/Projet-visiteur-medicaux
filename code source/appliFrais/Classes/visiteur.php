@@ -103,4 +103,4 @@ class visiteur
 	{
 		$this->dateEmbauche=$dateEmbauche;
 	}
-}
+	
