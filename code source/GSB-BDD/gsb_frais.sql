@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 09 Septembre 2015 à 17:00
+-- Généré le :  Mer 16 Septembre 2015 à 15:31
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,6 +19,43 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `gsb_frais`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `délégué`
+--
+
+CREATE TABLE IF NOT EXISTS `délégué` (
+  `idDel` char(11) NOT NULL,
+  `idRH` char(11) NOT NULL,
+  PRIMARY KEY (`idDel`),
+  KEY `idRH` (`idRH`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `délégué`
+--
+
+INSERT INTO `délégué` (`idDel`, `idRH`) VALUES
+('a131', 'rh1');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `entretenir`
+--
+
+CREATE TABLE IF NOT EXISTS `entretenir` (
+  `id` char(11) NOT NULL,
+  `idVisiteur` char(11) NOT NULL,
+  `idDel` char(11) NOT NULL,
+  `commentaires` char(40) NOT NULL,
+  `notes` char(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idVisiteur` (`idVisiteur`,`idDel`),
+  KEY `INDEX` (`idDel`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -192,6 +229,24 @@ INSERT INTO `personnel` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`,
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `rh`
+--
+
+CREATE TABLE IF NOT EXISTS `rh` (
+  `id` char(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `rh`
+--
+
+INSERT INTO `rh` (`id`) VALUES
+('rh1');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `visiteur`
 --
 
@@ -230,12 +285,25 @@ INSERT INTO `visiteur` (`idPers`) VALUES
 ('e5'),
 ('e52'),
 ('f21'),
-('f39'),
-('f4');
+('f39');
 
 --
 -- Contraintes pour les tables exportées
 --
+
+--
+-- Contraintes pour la table `délégué`
+--
+ALTER TABLE `délégué`
+  ADD CONSTRAINT `fk_rh_delegue` FOREIGN KEY (`idRH`) REFERENCES `rh` (`id`),
+  ADD CONSTRAINT `fk_visiteur_delegue` FOREIGN KEY (`idDel`) REFERENCES `visiteur` (`idPers`);
+
+--
+-- Contraintes pour la table `entretenir`
+--
+ALTER TABLE `entretenir`
+  ADD CONSTRAINT `fk_delegue_entretenir` FOREIGN KEY (`idDel`) REFERENCES `délégué` (`idDel`),
+  ADD CONSTRAINT `fk_visiteur_entretenir` FOREIGN KEY (`idVisiteur`) REFERENCES `visiteur` (`idPers`);
 
 --
 -- Contraintes pour la table `fichefrais`
@@ -260,7 +328,7 @@ ALTER TABLE `lignefraishorsforfait`
 -- Contraintes pour la table `visiteur`
 --
 ALTER TABLE `visiteur`
-  ADD CONSTRAINT `fr_pers_vist` FOREIGN KEY (`idPers`) REFERENCES `personnel` (`id`);
+  ADD CONSTRAINT `fk_pers_vist` FOREIGN KEY (`idPers`) REFERENCES `personnel` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
