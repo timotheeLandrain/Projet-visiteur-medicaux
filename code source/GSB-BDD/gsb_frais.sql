@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 16 Septembre 2015 à 15:31
+-- Généré le :  Mer 16 Septembre 2015 à 17:01
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,6 +19,20 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `gsb_frais`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `cabinet`
+--
+
+CREATE TABLE IF NOT EXISTS `cabinet` (
+  `idCabinet` char(11) NOT NULL,
+  `rue` char(40) NOT NULL,
+  `ville` char(15) NOT NULL,
+  `codePostal` int(8) NOT NULL,
+  PRIMARY KEY (`idCabinet`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -176,6 +190,24 @@ CREATE TABLE IF NOT EXISTS `lignefraishorsforfait` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `medecin`
+--
+
+CREATE TABLE IF NOT EXISTS `medecin` (
+  `idMed` char(11) NOT NULL,
+  `nom` char(20) NOT NULL,
+  `prenom` char(20) NOT NULL,
+  `telephone` char(20) NOT NULL,
+  `idVisiteur` char(11) NOT NULL,
+  `idCabinet` char(11) NOT NULL,
+  PRIMARY KEY (`idMed`),
+  KEY `idVisiteur` (`idVisiteur`,`idCabinet`),
+  KEY `INDEX` (`idCabinet`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `personnel`
 --
 
@@ -323,6 +355,13 @@ ALTER TABLE `lignefraisforfait`
 --
 ALTER TABLE `lignefraishorsforfait`
   ADD CONSTRAINT `lignefraishorsforfait_ibfk_1` FOREIGN KEY (`idVisiteur`, `mois`) REFERENCES `fichefrais` (`idVisiteur`, `mois`);
+
+--
+-- Contraintes pour la table `medecin`
+--
+ALTER TABLE `medecin`
+  ADD CONSTRAINT `fk_cabinet_medecin` FOREIGN KEY (`idCabinet`) REFERENCES `cabinet` (`idCabinet`),
+  ADD CONSTRAINT `fk_visiteur_cabinet` FOREIGN KEY (`idVisiteur`) REFERENCES `visiteur` (`idPers`);
 
 --
 -- Contraintes pour la table `visiteur`
