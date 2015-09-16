@@ -353,13 +353,14 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	
 	
 
+
 	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unNom."','" .$unPrenom."','" .$unId."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
 
 	$requete = "insert into visiteur(id) values('".$unId."')";
 
 
-	mysqli_query(connecterServeurBD(),$requete);
+
+	mysqli_query(connecterServeurBD(),$requete);	
+}  
 	
-	
-}             
 ?>

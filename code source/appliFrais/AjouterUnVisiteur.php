@@ -21,12 +21,13 @@
   $unCP = lireDonnee("codepostale", "");
   $uneDateEmbauche = lireDonnee("dateembauche", "");
   $unMdp= lireDonnee("motdepasse", "");
-
-  $unLogin=$unPrenom[0].$unNom;
-  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
+  if(!$unPrenom==""){
+	  $unLogin=$unPrenom[0].$unNom;
+	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
+  }
   
-  echo $unNom.$unPrenom.$uneAdresse.$uneVille.$unCP.$uneDateEmbauche.$unMdp.$unLogin;
-  echo $unPrenom[0].$unNom;
+  
+ 
   
   ?>
     <!-- Division principale -->
