@@ -48,6 +48,9 @@
            <li class="smenu">
               <a href="cListeVisiteurs.php" title="Consultation des visiteurs">Les visiteurs</a>
            </li>
+		   <li class="smenu">
+		      <a href="tableauDeBord.php" title="suivi des visiteurs">Tableau de bord</a>
+		   </li>
          </ul>
         <?php
           // affichage des éventuelles erreurs déjà détectées
