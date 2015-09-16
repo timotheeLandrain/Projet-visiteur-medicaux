@@ -356,6 +356,7 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 
 	$requete = "insert into visiteur(id) values('".$unId."')";
 
+
 	mysqli_query(connecterServeurBD(),$requete);
 	
 	

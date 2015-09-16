@@ -21,10 +21,12 @@
   $unCP = lireDonnee("codepostale", "");
   $uneDateEmbauche = lireDonnee("dateembauche", "");
   $unMdp= lireDonnee("motdepasse", "");
-  $unLogin="plop";
+
+  $unLogin=$unPrenom[0].$unNom;
   ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
   
   echo $unNom.$unPrenom.$uneAdresse.$uneVille.$unCP.$uneDateEmbauche.$unMdp.$unLogin;
+  echo $unPrenom[0].$unNom;
   
   ?>
     <!-- Division principale -->
@@ -41,38 +43,41 @@
 			<div class="corpsForm">
 			<p>
 			<label for="nom">Nom : </label>
-              <input type="text" id="nom" name="nom" size="12" maxlength="10" 
+              <input type="text" id="nom" name="nom" size="25" maxlength="25" 
                      title="Entrez le nom du visiteur"/>
 			</p>
 			<p>
 			<label for="prenom">Prenom :</label>
-			  <input type="text" id="prenom" name="prenom" size="12" maxlength="10" 
+			  <input type="text" id="prenom" name="prenom" size="25" maxlength="25" 
                      title="Entrez le prenom du visiteur"/>
 			</p>
 			<p>
 			<label for="codepostale">Code Postal :</label>
-			  <input type="text" id="codepostale" name="codepostale" size="12" maxlength="10" 
+			  <input type="text" id="codepostale" name="codepostale" size="10" maxlength="6" 
                      title="Entrez le codepostale du visiteur"/>
 			</p>
 			<p>
 			<label for="ville">Ville :</label>
-			  <input type="text" id="ville" name="ville" size="12" maxlength="10" 
+			  <input type="text" id="ville" name="ville" size="25" maxlength="25" 
                      title="Entrez la ville du visiteur"/>
 			</p>
 			<p>
 			<label for="adresse">Adresse :</label>
-			  <input type="text" id="adresse" name="adresse" size="12" maxlength="10" 
+			  <input type="text" id="adresse" name="adresse" size="25" maxlength="40" 
                      title="Entrez l'adresse du visiteur"/>
 			</p>
 			<p>
 			<label for="DateEmbauche">Date d'embauche :</label>
-			  <input type="text" id="dateembauche" name="dateembauche" size="12" maxlength="10" 
+			  <input type="text" id="dateembauche" name="dateembauche" size="15" maxlength="10" 
                      title="Entrez la date d'embauche du visiteur"/>
 			</p>
 			<p>
 			<label for="MotDePasse">Mot de Passe:</label>
-			  <input type="text" id="motdepasse" name="motdepasse" size="12" maxlength="10" 
+			  <input type="text" id="motdepasse" name="motdepasse" size="25" maxlength="25" 
                      title="Entrez le mot de passe du visiteur"/>
+			</p>
+			<p>
+			<center><INPUT type= "checkbox" name="tarif" value="jour"> Le visiteur est un délégué</center>
 			</p>
 			</fieldset>
 			<?php
