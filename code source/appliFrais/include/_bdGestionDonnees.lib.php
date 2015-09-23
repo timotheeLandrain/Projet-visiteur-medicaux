@@ -354,13 +354,14 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	
 
 
-	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('a89','" .$unNom."','" .$unPrenom."','".$unLogin."','".$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('a89','" .$unNom."','" .$unPrenom."','".$unLogin."','".$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','" .$uneDateEmbauche."')";
 
-	//$requete = "insert into visiteur(id) values('a89')";
+	$requete2 = "insert into visiteur(idPers) values('a89')";
 
 
 
 	mysqli_query(connecterServeurBD(),$requete);	
+	mysqli_query(connecterServeurBD(),$requete2);
 }  
 
 	
