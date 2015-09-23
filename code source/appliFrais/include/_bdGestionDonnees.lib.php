@@ -362,5 +362,6 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 
 	mysqli_query(connecterServeurBD(),$requete);	
 }  
+
 	
 ?>

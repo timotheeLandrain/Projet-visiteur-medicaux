@@ -21,11 +21,16 @@
   $unCP = lireDonnee("codepostale", "");
   $uneDateEmbauche = lireDonnee("dateembauche", "");
   $unMdp= lireDonnee("motdepasse", "");
+  $unId= lireDonnee("delegue","");
   if(!$unPrenom==""){
 	  $unLogin=$unPrenom[0].$unNom;
 	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
+	  
   }
-  
+  if (!$unId==""){
+	  createId($unId);
+  }
+
   
  
   
@@ -76,9 +81,9 @@
 			<label for="MotDePasse">Mot de Passe:</label>
 			  <input type="text" id="motdepasse" name="motdepasse" size="25" maxlength="25" 
                      title="Entrez le mot de passe du visiteur"/>
-			</p>
+			</p>	
 			<p>
-			<center><INPUT type= "checkbox" name="tarif" value="jour"> Le visiteur est un délégué</center>
+			<center><INPUT type= "checkbox" name="delegue" id="delegue" value="delegue"> Le visiteur est un délégué</center>
 			</p>
 			</fieldset>
 			<?php
