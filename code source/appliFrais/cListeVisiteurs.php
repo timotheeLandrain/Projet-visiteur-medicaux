@@ -25,7 +25,7 @@
 			<SELECT name="Ville_Choix">
 				<OPTION value="%"> Ville
 				<?php
-					$listeVille = "SELECT distinct ville FROM visiteur";
+					$listeVille = "SELECT distinct ville FROM visiteur v, personnel p WHERE p.id = v.idPers";
 					$reqListeVille = mysqli_query(connecterServeurBD(), $listeVille);
 					while($take = mysqli_fetch_array($reqListeVille)){
 						?><OPTION><?php echo $take['ville'];
@@ -40,7 +40,7 @@
 		?>
 			<FORM action='cListeVisiteurs.php' method=POST>
 			<?php
-			$liste = 'SELECT * FROM visiteur WHERE ville like "'.$_POST['Ville_Choix'].'"';
+			$liste = 'SELECT * FROM visiteur v, personnel p WHERE ville like "'.$_POST['Ville_Choix'].'" AND p.id = v.idPers';
 			$reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
 			?>
 			<table align=center, border="1">
@@ -94,7 +94,7 @@
 		?>
 			<FORM action='cListeVisiteurs.php' method=POST>
 			<?php
-			$liste = 'SELECT * FROM visiteur';
+			$liste = 'SELECT * FROM personnel p, visiteur v WHERE p.id = v.idPers';
 			$reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
 			?>
 			<table align=center, border="1">
