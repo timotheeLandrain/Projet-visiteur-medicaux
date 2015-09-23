@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 23 Septembre 2015 à 17:04
+-- Généré le :  Mer 16 Septembre 2015 à 17:01
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -31,17 +31,16 @@ CREATE TABLE IF NOT EXISTS `cabinet` (
   `rue` char(40) NOT NULL,
   `ville` char(15) NOT NULL,
   `codePostal` int(8) NOT NULL,
-  `nomCabinet` char(30) NOT NULL,
   PRIMARY KEY (`idCabinet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `delegue`
+-- Structure de la table `délégué`
 --
 
-CREATE TABLE IF NOT EXISTS `delegue` (
+CREATE TABLE IF NOT EXISTS `délégué` (
   `idDel` char(11) NOT NULL,
   `idRH` char(11) NOT NULL,
   PRIMARY KEY (`idDel`),
@@ -49,10 +48,10 @@ CREATE TABLE IF NOT EXISTS `delegue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `delegue`
+-- Contenu de la table `délégué`
 --
 
-INSERT INTO `delegue` (`idDel`, `idRH`) VALUES
+INSERT INTO `délégué` (`idDel`, `idRH`) VALUES
 ('a131', 'rh1');
 
 -- --------------------------------------------------------
@@ -64,12 +63,12 @@ INSERT INTO `delegue` (`idDel`, `idRH`) VALUES
 CREATE TABLE IF NOT EXISTS `entretenir` (
   `id` char(11) NOT NULL,
   `idVisiteur` char(11) NOT NULL,
-  `idDelEntretien` char(11) NOT NULL,
+  `idDel` char(11) NOT NULL,
   `commentaires` char(40) NOT NULL,
   `notes` char(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idVisiteur` (`idVisiteur`,`idDelEntretien`),
-  KEY `INDEX` (`idDelEntretien`)
+  KEY `idVisiteur` (`idVisiteur`,`idDel`),
+  KEY `INDEX` (`idDel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -117,8 +116,7 @@ CREATE TABLE IF NOT EXISTS `fichefrais` (
 
 INSERT INTO `fichefrais` (`idVisiteur`, `mois`, `nbJustificatifs`, `montantValide`, `dateModif`, `idEtat`) VALUES
 ('a17', '201505', 0, NULL, '2015-05-05', 'CR'),
-('a17', '201509', 0, NULL, '2015-09-09', 'CR'),
-('rh1', '201509', 0, NULL, '2015-09-23', 'CR');
+('a17', '201509', 0, NULL, '2015-09-09', 'CR');
 
 -- --------------------------------------------------------
 
@@ -170,11 +168,7 @@ INSERT INTO `lignefraisforfait` (`idVisiteur`, `mois`, `idFraisForfait`, `quanti
 ('a17', '201509', 'ETP', 0),
 ('a17', '201509', 'KM', 0),
 ('a17', '201509', 'NUI', 0),
-('a17', '201509', 'REP', 0),
-('rh1', '201509', 'ETP', 0),
-('rh1', '201509', 'KM', 0),
-('rh1', '201509', 'NUI', 0),
-('rh1', '201509', 'REP', 0);
+('a17', '201509', 'REP', 0);
 
 -- --------------------------------------------------------
 
@@ -290,51 +284,49 @@ INSERT INTO `rh` (`id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `visiteur` (
   `idPers` char(11) NOT NULL,
-  `idDelAffecter` char(11) DEFAULT NULL,
-  PRIMARY KEY (`idPers`),
-  KEY `idDel` (`idDelAffecter`)
+  PRIMARY KEY (`idPers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `visiteur`
 --
 
-INSERT INTO `visiteur` (`idPers`, `idDelAffecter`) VALUES
-('a131', NULL),
-('f39', NULL),
-('a17', 'a131'),
-('a55', 'a131'),
-('a93', 'a131'),
-('b13', 'a131'),
-('b16', 'a131'),
-('b19', 'a131'),
-('b25', 'a131'),
-('b28', 'a131'),
-('b34', 'a131'),
-('b4', 'a131'),
-('b50', 'a131'),
-('b59', 'a131'),
-('c14', 'a131'),
-('c3', 'a131'),
-('c54', 'a131'),
-('d13', 'a131'),
-('d51', 'a131'),
-('e22', 'a131'),
-('e24', 'a131'),
-('e39', 'a131'),
-('e49', 'a131'),
-('e5', 'a131'),
-('e52', 'a131'),
-('f21', 'a131');
+INSERT INTO `visiteur` (`idPers`) VALUES
+('a131'),
+('a17'),
+('a55'),
+('a93'),
+('b13'),
+('b16'),
+('b19'),
+('b25'),
+('b28'),
+('b34'),
+('b4'),
+('b50'),
+('b59'),
+('c14'),
+('c3'),
+('c54'),
+('d13'),
+('d51'),
+('e22'),
+('e24'),
+('e39'),
+('e49'),
+('e5'),
+('e52'),
+('f21'),
+('f39');
 
 --
 -- Contraintes pour les tables exportées
 --
 
 --
--- Contraintes pour la table `delegue`
+-- Contraintes pour la table `délégué`
 --
-ALTER TABLE `delegue`
+ALTER TABLE `délégué`
   ADD CONSTRAINT `fk_rh_delegue` FOREIGN KEY (`idRH`) REFERENCES `rh` (`id`),
   ADD CONSTRAINT `fk_visiteur_delegue` FOREIGN KEY (`idDel`) REFERENCES `visiteur` (`idPers`);
 
@@ -342,7 +334,7 @@ ALTER TABLE `delegue`
 -- Contraintes pour la table `entretenir`
 --
 ALTER TABLE `entretenir`
-  ADD CONSTRAINT `fk_delegue_entretenir` FOREIGN KEY (`idDelEntretien`) REFERENCES `delegue` (`idDel`),
+  ADD CONSTRAINT `fk_delegue_entretenir` FOREIGN KEY (`idDel`) REFERENCES `délégué` (`idDel`),
   ADD CONSTRAINT `fk_visiteur_entretenir` FOREIGN KEY (`idVisiteur`) REFERENCES `visiteur` (`idPers`);
 
 --
@@ -375,7 +367,6 @@ ALTER TABLE `medecin`
 -- Contraintes pour la table `visiteur`
 --
 ALTER TABLE `visiteur`
-  ADD CONSTRAINT `fk_del_visit` FOREIGN KEY (`idDelAffecter`) REFERENCES `delegue` (`idDel`),
   ADD CONSTRAINT `fk_pers_vist` FOREIGN KEY (`idPers`) REFERENCES `personnel` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

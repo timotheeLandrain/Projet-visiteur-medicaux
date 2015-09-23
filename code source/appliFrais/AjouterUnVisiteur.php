@@ -25,11 +25,12 @@
   if(!$unPrenom==""){
 	  $unLogin=$unPrenom[0].$unNom;
 	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
+	  echo $uneDateEmbauche;
 	  
   }
-  if (!$unId==""){
+  /*if (!$unId==""){
 	  createId($unId);
-  }
+  }*/
 
   
  
