@@ -14,16 +14,29 @@
           $idUser = obtenirIdUserConnecte() ;
           $lgUser = obtenirDetailVisiteur($idUser);
           $nom = $lgUser['nom'];
-          $prenom = $lgUser['prenom'];            
+          $prenom = $lgUser['prenom'];
+		  $type = "Visiteur médical";
+		  if (substr($idUser,0,1) == 'rh'){
+			  $type = "Ressources Humaines";
+		  }
+		  
+		  else if(strlen($idUser)> 3){
+			  $type = "Visiteur médical (délégué)";
+		  }
+	  
     ?>
         <h2>
     <?php  
             echo $nom . " " . $prenom ;
     ?>
         </h2>
-        <h3>Visiteur médical</h3>        
+        <h3>
+			<?php
+				echo $type;
+			?>
+		</h3>        
     <?php
-       }
+	  } 
     ?>  
       </div>  
 <?php      
