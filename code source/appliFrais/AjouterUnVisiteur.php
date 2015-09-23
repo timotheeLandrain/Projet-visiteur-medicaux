@@ -27,9 +27,9 @@
 	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
 	  
   }
-  if (!$unId==""){
+  /*if (!$unId==""){
 	  createId($unId);
-  }
+  }*/
 
   
  
