@@ -64,6 +64,9 @@
 		   <li class="smenu">
 		      <a href="tableauDeBord.php" title="suivi des visiteurs">Tableau de bord</a>
 		   </li>
+		    <li class="smenu">
+		      <a href="gestionEntretien.php" title="Gestion des entretiens">Gestion des entretiens</a>
+		   </li>
          </ul>
         <?php
           // affichage des éventuelles erreurs déjà détectées
