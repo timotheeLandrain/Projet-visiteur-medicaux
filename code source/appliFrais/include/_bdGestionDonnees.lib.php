@@ -69,6 +69,20 @@ function obtenirDetailVisiteur($unId) {
     }
     return $ligne ;
 }
+function visiteurEstDelegue($unId) {
+	$id = filtrerChainePourBD($unId);
+	$requete = "select * from delegue where idDel='".$id."'" ;
+	$resultat = mysqli_query(connecterServeurBD(),$requete) or die ('Erreur SQL !<br/>'.$requete.'<br/>');
+	$res=mysqli_fetch_array($resultat);
+	if (count($res)<1){
+		$bool=false;
+	}
+	else{
+		$bool=true;
+	}
+	return $bool;
+}
+
 
 /** 
  * Fournit les informations d'une fiche de frais. 
@@ -352,8 +366,8 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
 	
 	
-
-
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('a89','" .$unNom."','" .$unPrenom."','".$unLogin.",'" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
+	$requete2 = "insert into visiteur(id) values('".$unId."')";
 
 
 
