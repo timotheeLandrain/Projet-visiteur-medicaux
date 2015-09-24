@@ -30,34 +30,6 @@ function connecterServeurBD() {
 	return $mysqli;
 }
 
-function listeVisiteur(){
-	$liste = 'SELECT p.nom, p.prenom, p.ville, c.nomCabinet FROM personnel p, visiteur v, medecin m, cabinet c WHERE p.id = v.idPers AND p.id = m.idVisiteur AND m.idCabinet = c.idCabinet';
-	$reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
-	
-	return $reqliste;
-}
-
-function listeVisiteurTri(){
-	$liste = 'SELECT p.nom, p.prenom, p.ville, c.nomCabinet FROM visiteur v, personnel p, cabinet c, medecin m WHERE p.ville like "'.$_POST['Ville_Choix'].'" AND c.nomCabinet like "'.$_POST['Cabinet_Choix'].'" AND p.id = v.idPers AND p.id = m.idVisiteur AND m.idCabinet = c.idCabinet';
-	$reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
-	
-	return $reqliste;
-}
-
-function selectionVille(){
-	$listeVille = "SELECT distinct ville FROM visiteur v, personnel p WHERE p.id = v.idPers";
-	$reqListeVille = mysqli_query(connecterServeurBD(), $listeVille);
-	
-	return $reqListeVille;
-}
-
-function selectionCabinet(){
-	$listeCabinet = "SELECT distinct nomCabinet FROM cabinet";
-	$reqListeCabinet = mysqli_query(connecterServeurBD(), $listeCabinet);
-	
-	return $reqListeCabinet;
-}
-
 /**
  * Echappe les caractères spéciaux d'une chaîne.
  * Envoie la chaîne $str échappée, càd avec les caractères considérés spéciaux
@@ -96,6 +68,20 @@ function obtenirDetailVisiteur($unId) {
         mysqli_free_result($idJeuRes);
     }
     return $ligne ;
+}
+
+function visiteurEstDelegue($unId) {
+	$id = filtrerChainePourBD($unId);
+	$requete = "select * from delegue where idDel='".$id."'" ;
+	$resultat = mysqli_query(connecterServeurBD(),$requete) or die ('Erreur SQL !<br/>'.$requete.'<br/>');
+	$res=mysqli_fetch_array($resultat);
+	if (count($res)<1){
+		$bool=false;
+	}
+	else{
+		$bool=true;
+	}
+	return $bool;
 }
 
 /** 
@@ -382,14 +368,13 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	
 
 
-	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('a89','" .$unNom."','" .$unPrenom."','".$unLogin."','".$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','" .$uneDateEmbauche."')";
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('" .$unId."','" .$unNom."','" .$unPrenom."','".$unLogin.",'" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
 
-	$requete2 = "insert into visiteur(idPers) values('a89')";
+	//$requete = "insert into visiteur(id) values('".$unId."')";
 
 
 
 	mysqli_query(connecterServeurBD(),$requete);	
-	mysqli_query(connecterServeurBD(),$requete2);
 }  
 
 	

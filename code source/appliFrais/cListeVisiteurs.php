@@ -15,6 +15,8 @@
   require($repInclude . "_entete.inc.html");
   require($repInclude . "_sommaire.inc.php");
   
+  $liste = 'SELECT * FROM visiteur';
+  $reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
 ?>
   <!-- Division principale -->
   <div id="contenu">
@@ -23,19 +25,10 @@
 			<SELECT name="Ville_Choix">
 				<OPTION value="%"> Ville
 				<?php
-					$choixVille = selectionVille();
-					while($take = mysqli_fetch_array($choixVille)){
+					$listeVille = "SELECT distinct ville FROM visiteur v, personnel p WHERE p.id = v.idPers";
+					$reqListeVille = mysqli_query(connecterServeurBD(), $listeVille);
+					while($take = mysqli_fetch_array($reqListeVille)){
 						?><OPTION><?php echo $take['ville'];
-					}
-				?>
-				<br>
-			</SELECT>
-			<SELECT name="Cabinet_Choix">
-				<OPTION value="%"> Cabinet
-				<?php
-					$choixCabinet = selectionCabinet();
-					while($take = mysqli_fetch_array($choixCabinet)){
-						?><OPTION><?php echo $take['nomCabinet'];
 					}
 				?>
 				<br>
@@ -47,7 +40,8 @@
 		?>
 			<FORM action='cListeVisiteurs.php' method=POST>
 			<?php
-			$liste = listeVisiteurTri();
+			$liste = 'SELECT * FROM visiteur v, personnel p WHERE ville like "'.$_POST['Ville_Choix'].'" AND p.id = v.idPers';
+			$reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
 			?>
 			<table align=center, border="1">
 				<td>
@@ -63,7 +57,7 @@
 					<b>Cabinet</b>
 				</td>
 			<?php
-			while ($data = mysqli_fetch_array($liste)) {
+			while ($data = mysqli_fetch_array($reqliste)) {
 			?>
 				<tr>
 					<td>
@@ -83,7 +77,7 @@
 					</td>
 					<td>
 					<?php
-						echo $data['nomCabinet'].'<br />';
+						echo 'None<br />';
 					?>
 					</td>
 				</tr>
@@ -100,7 +94,8 @@
 		?>
 			<FORM action='cListeVisiteurs.php' method=POST>
 			<?php
-			$liste = listeVisiteur();
+			$liste = 'SELECT * FROM personnel p, visiteur v WHERE p.id = v.idPers';
+			$reqliste = mysqli_query(connecterServeurBD(), $liste) or die('Erreur SQL !<br />'.$liste.'<br />'.mysqli_error());
 			?>
 			<table align=center, border="1">
 				<td>
@@ -116,7 +111,7 @@
 					<b>Cabinet</b>
 				</td>
 			<?php
-			while ($data = mysqli_fetch_array($liste)) {
+			while ($data = mysqli_fetch_array($reqliste)) {
 			?>
 				<tr>
 					<td>
@@ -136,7 +131,7 @@
 					</td>
 					<td>
 					<?php
-						echo $data['nomCabinet'].'<br />';
+						echo 'None<br />';
 					?>
 					</td>
 				</tr>
