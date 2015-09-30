@@ -27,12 +27,9 @@
 	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp); 
 	  
   }
-  if (!$unId==""){
-	  createId($unId);
-  }
-
-  
  
+
+
   
   ?>
     <!-- Division principale -->

@@ -406,15 +406,21 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unLogin=filtrerChainePourBD($unLogin);
 	$unMdp=filtrerChainePourBD($unMdp);
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
+	//Selectionne l'id maximum et rajoute 1
+	$id="SELECT MAX(id) as prochainId FROM personnel";
+	$resultat = mysqli_query(connecterServeurBD(),$id);
+	$ligne=mysqli_fetch_assoc($resultat);
+	$prochainId=$ligne["prochainId"];
+	$prochainId=$prochainId+1;
 	
-	
-	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('a89','" .$unNom."','" .$unPrenom."','".$unLogin.",'" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
-	$requete2 = "insert into visiteur(id) values('".$unId."')";
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values(".$prochainId.",'" .$unNom."','" .$unPrenom."','".$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','".$uneDateEmbauche."')";
+	$requete2 = "insert into visiteur(idPers) values(".$prochainId.")";
 
 
 
 
-	mysqli_query(connecterServeurBD(),$requete);	
+	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	mysqli_query(connecterServeurBD(),$requete2)or die('Error SQL !'.$requete2);
 }  
 
 	
