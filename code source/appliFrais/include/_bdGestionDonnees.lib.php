@@ -397,7 +397,7 @@ function modifierEtatFicheFrais($unMois, $unIdVisiteur, $unEtat) {
     mysqli_query(connecterServeurBD(),$requete);
 }
 
-function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp) {
+function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp, $delegue) {
 	$unNom=filtrerChainePourBD($unNom);
 	$unPrenom=filtrerChainePourBD($unPrenom);
 	$uneAdresse=filtrerChainePourBD($uneAdresse);
@@ -406,6 +406,7 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unLogin=filtrerChainePourBD($unLogin);
 	$unMdp=filtrerChainePourBD($unMdp);
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
+	$delegue=filtrerChainePourBD($delegue);
 	//Selectionne l'id maximum et rajoute 1
 	$id="SELECT MAX(id) as prochainId FROM personnel";
 	$resultat = mysqli_query(connecterServeurBD(),$id);
@@ -415,12 +416,16 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	
 	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values(".$prochainId.",'" .$unNom."','" .$unPrenom."','".$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','".$uneDateEmbauche."')";
 	$requete2 = "insert into visiteur(idPers) values(".$prochainId.")";
-
-
-
+	
 
 	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	mysqli_query(connecterServeurBD(),$requete2)or die('Error SQL !'.$requete2);
+	
+	if($delegue=='delegue')
+	{
+		$requeteDelegue="insert into délégué (idDel,idRH) values(".$prochainId.",28)";
+		mysqli_query(connecterServeurBD(),$requeteDelegue) or die('Error SQL !'.$requeteDelegue);
+	}
 }  
 
 	
