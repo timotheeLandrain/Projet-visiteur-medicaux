@@ -99,16 +99,15 @@ function obtenirDetailVisiteur($unId) {
 }
 function visiteurEstDelegue($unId) {
 	$id = filtrerChainePourBD($unId);
-	$requete = "select count(*) from delegue where idDel='".$unId."'" ;
+	$requete = "select * from delegue where idDel='".$unId."'" ;
 	$resultat = mysqli_query(connecterServeurBD(),$requete) or die ('Erreur SQL !<br/>'.$requete.'<br/>');
-	$res=mysqli_fetch_array($resultat);
-	if (count($res)==0){
-		$bool=false;
+	$res= mysqli_fetch_array($resultat);
+	$type = "delegue";
+	if (mysqli_num_rows($res)==0){
+		$type="visiteur";
 	}
-	else{
-		$bool=true;
-	}
-	return $bool;
+
+	return $type;
 }
 
 function personnelEstRH($unId) {

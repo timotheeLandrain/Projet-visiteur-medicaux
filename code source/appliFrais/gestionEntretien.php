@@ -4,8 +4,8 @@
 	require($repInclude . "_entete.inc.html");
 	require($repInclude . "_sommaire.inc.php");
     $idUser = obtenirIdUserConnecte() ;
-	echo visiteurEstDelegue($idUser);
-	if (visiteurEstDelegue($idUser) == true){
+	
+	if (visiteurEstDelegue($idUser) == "delegue"){
 		header("Location: gestionEntretienDelegue.php");
 	}
 	else{
