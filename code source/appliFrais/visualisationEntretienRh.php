@@ -18,16 +18,32 @@
  <div id="contenu">
       <h2>Visualisation des entretiens</h2>
 	  <table>
-		<tr>
-			<td>Nom du visiteur</td>
-			<td>Nom du délégué</td>
-			<td>Commentaire</td>
-			<td>Note</td>
-			<td>Date</td>
+		<tr style="border:2px solid black">
+			<td width='150px'>Nom du visiteur</td>
+			<td width='150px'>Commentaire</td>
+			<td width='150px'>Note</td>
+			<td width='150px'>Date</td>
+			<td width='150px'>Nom du délégué</td>
 		</tr>
 		<?php
 		foreach($entretiens as $entretien){
-			echo 'blabla';
+			$nomVisiteur=$entretien['nom'];
+			$idVisiteur=donneId($nomVisiteur);
+			$delegue=selectionneLeDelegue($idVisiteur);
+			?>
+			<tr>
+			
+				<?php foreach($entretien as $ligne){ 
+					echo '<td>'.$ligne.'</td>'; 
+					
+					}
+				echo '<td>'.$delegue.'</td>';	
+					
+					
+					
+				?>
+			</tr>
+			<?php
 		}
 		?>
 	  </table>

@@ -422,7 +422,7 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	
 	if($delegue=='delegue')
 	{
-		$requeteDelegue="insert into délégué (idDel,idRH) values(".$prochainId.",28)";
+		$requeteDelegue="insert into delegue (idDel,idRH) values(".$prochainId.",28)";
 		mysqli_query(connecterServeurBD(),$requeteDelegue) or die('Error SQL !'.$requeteDelegue);
 	}
 }
@@ -431,13 +431,48 @@ function visualisationEntretiens(){
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
 }
-function selectionneLeDelegue($idPers){
-	$requete="select nom from personnel P, visiteur V where V.idPers=".$idPers."and V.idDel=P.id";
+function donneId($nom){
+	$requete="select id from personnel where '".$nom."'=nom";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
-	return $resultat;
+	$resultat=$resultat->fetch_row();
+	$value=$resultat[0];
+	return $value;
+}
+function selectionneLeDelegue($idPers){
+	$requete="select nom from personnel P, visiteur V where V.idPers=".$idPers." and V.idDel=P.id";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	$resultat=$resultat->fetch_row();
+	$value=$resultat[0];
+	return $value;
 }
 
-  
+function visiteurEstRh($id){
+	$rh=false;
+	$requete='select id from rh';
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	 while ($ligne=$resultat->fetch_row()){
+		 if($id==$ligne[0]){
+			 $rh=true;
+		 }
+	 }
+	return $rh;
+	
+	
+}
+
+function selectionVisiteurs(){
+	$requete = 'SELECT id,nom,prenom FROM personnel p, visiteur v WHERE p.id = v.idPers';
+	$resultat = mysqli_query(connecterServeurBD(), $requete) or die('Error SQL !'.$requete);
+	$liste="<select name='visiteur'>";
+	while ($data = mysqli_fetch_array($resultat)) {
+		$liste.= "<option value=".$data['id'].">".$data['nom']." ".$data['prenom']."</option>";
+	}
+	return $liste;
+}  
+
+function supprimerVisiteur(){
+	
+}
 
 	
 ?>

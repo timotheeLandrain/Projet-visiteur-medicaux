@@ -55,9 +55,7 @@
            <li class="smenu">
               <a href="cConsultFichesFrais.php" title="Consultation de mes fiches de frais">Mes fiches de frais</a>
            </li>
-		   <li class="smenu">
-			  <a href="AjouterUnVisiteur.php" title="Ajouter un Visiteur">Ajouter un Visiteur</a>
-		    </li>  
+		    
            <li class="smenu">
               <a href="cListeVisiteurs.php" title="Consultation des visiteurs">Les visiteurs</a>
            </li>
@@ -67,10 +65,19 @@
 		    <li class="smenu">
 		      <a href="gestionEntretien.php" title="Gestion des entretiens">Gestion des entretiens</a>
 		   </li>
-		   </li>
-		    <li class="smenu">
-		      <a href="visualisationEntretienRh.php" title="Visualisation des entretiens">Visualisation des entretiens</a>
-		   </li>
+		   <?php
+		   if(visiteurEstRh($idUser)==true){
+		   ?>
+			   <li class="smenu">
+				  <a href="AjouterUnVisiteur.php" title="Ajouter un Visiteur">Ajouter un Visiteur</a>
+				</li> 
+				<li class="smenu">
+				  <a href="visualisationEntretienRh.php" title="Visualisation des entretiens">Visualisation des entretiens</a>
+			   </li>
+			   <li class="smenu">
+				  <a href="suppressionVisiteur.php" title="Suppression d'un visiteur">Suppression d'un visiteur</a>
+			   </li>
+		   <?php } ?>  
          </ul>
         <?php
           // affichage des éventuelles erreurs déjà détectées
