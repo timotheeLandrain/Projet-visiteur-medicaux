@@ -456,10 +456,15 @@ function donneId($nom){
 	return $value;
 }
 function selectionneLeDelegue($idPers){
-	$requete="select nom from personnel P, visiteur V where V.idPers=".$idPers." and V.idDel=P.id";
+	$requete="select e.idDel from personnel P, entretenir e where P.id=e.idVisiteur and e.idVisiteur=".$idPers."";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	$resultat=$resultat->fetch_row();
 	$value=$resultat[0];
+	$requete2="select nom from personnel where id=".$value."";
+	$resultat=mysqli_query(connecterServeurBD(),$requete2) or die('Error SQL !'.$requete2);
+	$resultat=$resultat->fetch_row();
+	$value=$resultat[0];
+	
 	return $value;
 }
 function selectionneLesVisiteurs($idDel){
@@ -513,7 +518,6 @@ function entretienDelegue($idDel){
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
 }
-<<<<<<< HEAD
 
 function selectionneRegions(){
 	$requete = 'SELECT id, region FROM zone';
@@ -526,7 +530,7 @@ function selectionneRegions(){
 	return $liste;	
 }
   
-=======
+
 function idVisiteurSelonNom($unVisiteur){
 	$requete="select id from personnel where personnel.nom like '".$unVisiteur."'";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
@@ -553,7 +557,7 @@ function ajouterEntretien($idDel, $unVisiteur, $unCommentaire, $uneNote, $uneDat
 	
 	$requete = "insert into entretenir(id,idVisiteur,idDel,commentaires,notes,Date) values(".$prochainId.",".$idVisiteur.",".$idDel.",'" .$unCommentaire."',".$uneNote.",'".$uneDate."')";
 	
->>>>>>> origin/master
+
 
 	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	
