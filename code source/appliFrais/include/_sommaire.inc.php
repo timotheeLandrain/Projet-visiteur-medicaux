@@ -66,6 +66,15 @@
 		      <a href="gestionEntretien.php" title="Gestion des entretiens">Gestion des entretiens</a>
 		   </li>
 		   <?php
+		   if(visiteurEstDelegue($idUser)=='delegue'){
+		   ?>
+				<li class="smenu">
+		      <a href="ajoutEntretien.php" title="Ajouter un entretien">Ajouter un entretien</a>
+		   </li>
+		   <?php
+		   }
+		   ?>
+		   <?php
 		   if(visiteurEstRh($idUser)==true){
 		   ?>
 			   <li class="smenu">
