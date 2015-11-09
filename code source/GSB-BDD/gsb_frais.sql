@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 16 Septembre 2015 à 17:01
+-- Généré le :  Lun 09 Novembre 2015 à 10:31
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -34,6 +34,14 @@ CREATE TABLE IF NOT EXISTS `cabinet` (
   PRIMARY KEY (`idCabinet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `cabinet`
+--
+
+INSERT INTO `cabinet` (`idCabinet`, `rue`, `ville`, `codePostal`) VALUES
+(1, 'de Gaulle', 'nantes', 44000),
+(2, 'Edith Piaf', 'St Nazaire', 44600);
+
 -- --------------------------------------------------------
 
 --
@@ -52,7 +60,9 @@ CREATE TABLE IF NOT EXISTS `délégué` (
 --
 
 INSERT INTO `délégué` (`idDel`, `idRH`) VALUES
-('1', '28');
+(1, 28),
+(12, 28),
+(37, 28);
 
 -- --------------------------------------------------------
 
@@ -66,10 +76,19 @@ CREATE TABLE IF NOT EXISTS `entretenir` (
   `idDel` int(11) NOT NULL,
   `commentaires` char(40) NOT NULL,
   `notes` char(11) NOT NULL,
+  `Date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idVisiteur` (`idVisiteur`,`idDel`),
   KEY `INDEX` (`idDel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `entretenir`
+--
+
+INSERT INTO `entretenir` (`id`, `idVisiteur`, `idDel`, `commentaires`, `notes`, `Date`) VALUES
+(1, 3, 12, 'Entretien salariale', '', '2015-11-02'),
+(2, 29, 37, 'Faute professionel', '', '2015-11-19');
 
 -- --------------------------------------------------------
 
@@ -115,8 +134,11 @@ CREATE TABLE IF NOT EXISTS `fichefrais` (
 --
 
 INSERT INTO `fichefrais` (`idVisiteur`, `mois`, `nbJustificatifs`, `montantValide`, `dateModif`, `idEtat`) VALUES
-('17', '201505', 0, NULL, '2015-05-05', 'CR'),
-('17', '201509', 0, NULL, '2015-09-09', 'CR');
+(0, '201509', 0, NULL, '2015-09-30', 'CR'),
+(2, '201510', 0, NULL, '2015-11-09', 'CL'),
+(2, '201511', 0, NULL, '2015-11-09', 'CR'),
+(17, '201505', 0, NULL, '2015-05-05', 'CR'),
+(17, '201509', 0, NULL, '2015-09-09', 'CR');
 
 -- --------------------------------------------------------
 
@@ -161,14 +183,26 @@ CREATE TABLE IF NOT EXISTS `lignefraisforfait` (
 --
 
 INSERT INTO `lignefraisforfait` (`idVisiteur`, `mois`, `idFraisForfait`, `quantite`) VALUES
-('17', '201505', 'ETP', 0),
-('17', '201505', 'KM', 0),
-('17', '201505', 'NUI', 0),
-('17', '201505', 'REP', 0),
-('17', '201509', 'ETP', 0),
-('17', '201509', 'KM', 0),
-('17', '201509', 'NUI', 0),
-('17', '201509', 'REP', 0);
+(0, '201509', 'ETP', 0),
+(0, '201509', 'KM', 0),
+(0, '201509', 'NUI', 0),
+(0, '201509', 'REP', 0),
+(2, '201510', 'ETP', 0),
+(2, '201510', 'KM', 0),
+(2, '201510', 'NUI', 0),
+(2, '201510', 'REP', 0),
+(2, '201511', 'ETP', 0),
+(2, '201511', 'KM', 0),
+(2, '201511', 'NUI', 0),
+(2, '201511', 'REP', 0),
+(17, '201505', 'ETP', 0),
+(17, '201505', 'KM', 0),
+(17, '201505', 'NUI', 0),
+(17, '201505', 'REP', 0),
+(17, '201509', 'ETP', 0),
+(17, '201509', 'KM', 0),
+(17, '201509', 'NUI', 0),
+(17, '201509', 'REP', 0);
 
 -- --------------------------------------------------------
 
@@ -185,7 +219,14 @@ CREATE TABLE IF NOT EXISTS `lignefraishorsforfait` (
   `montant` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idVisiteur` (`idVisiteur`,`mois`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `lignefraishorsforfait`
+--
+
+INSERT INTO `lignefraishorsforfait` (`id`, `idVisiteur`, `mois`, `libelle`, `date`, `montant`) VALUES
+(1, 0, '201509', 'la fiche pas frais', '2015-08-02', '355.00');
 
 -- --------------------------------------------------------
 
@@ -229,34 +270,43 @@ CREATE TABLE IF NOT EXISTS `personnel` (
 --
 
 INSERT INTO `personnel` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`) VALUES
-('1', 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
-('2', 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23'),
-('3', 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12'),
-('4', 'Tusseau', 'Louis', 'ltusseau', 'ktp3s', '22 rue des Ternes', '46123', 'Gramat', '2000-05-01'),
-('5', 'Bentot', 'Pascal', 'pbentot', 'doyw1', '11 allée des Cerises', '46512', 'Bessines', '1992-07-09'),
-('6', 'Bioret', 'Luc', 'lbioret', 'hrjfs', '1 Avenue gambetta', '46000', 'Cahors', '1998-05-11'),
-('7', 'Bunisset', 'Francis', 'fbunisset', '4vbnd', '10 rue des Perles', '93100', 'Montreuil', '1987-10-21'),
-('8', 'Bunisset', 'Denise', 'dbunisset', 's1y1r', '23 rue Manin', '75019', 'paris', '2010-12-05'),
-('9', 'Cacheux', 'Bernard', 'bcacheux', 'uf7r3', '114 rue Blanche', '75017', 'Paris', '2009-11-12'),
-('10', 'Cadic', 'Eric', 'ecadic', '6u8dc', '123 avenue de la République', '75011', 'Paris', '2008-09-23'),
-('11', 'Charoze', 'Catherine', 'ccharoze', 'u817o', '100 rue Petit', '75019', 'Paris', '2005-11-12'),
-('12', 'Clepkens', 'Christophe', 'cclepkens', 'bw1us', '12 allée des Anges', '93230', 'Romainville', '2003-08-11'),
-('13', 'Cottin', 'Vincenne', 'vcottin', '2hoh9', '36 rue Des Roches', '93100', 'Monteuil', '2001-11-18'),
-('14', 'Daburon', 'François', 'fdaburon', '7oqpv', '13 rue de Chanzy', '94000', 'Créteil', '2002-02-11'),
-('15', 'De', 'Philippe', 'pde', 'gk9kx', '13 rue Barthes', '94000', 'Créteil', '2010-12-14'),
-('16', 'Debelle', 'Michel', 'mdebelle', 'od5rt', '181 avenue Barbusse', '93210', 'Rosny', '2006-11-23'),
-('17', 'Debelle', 'Jeanne', 'jdebelle', 'nvwqq', '134 allée des Joncs', '44000', 'Nantes', '2000-05-11'),
-('18', 'Debroise', 'Michel', 'mdebroise', 'sghkb', '2 Bld Jourdain', '44000', 'Nantes', '2001-04-17'),
-('19', 'Desmarquest', 'Nathalie', 'ndesmarquest', 'f1fob', '14 Place d Arc', '45000', 'Orléans', '2005-11-12'),
-('20', 'Desnost', 'Pierre', 'pdesnost', '4k2o5', '16 avenue des Cèdres', '23200', 'Guéret', '2001-02-05'),
-('21', 'Dudouit', 'Frédéric', 'fdudouit', '44im8', '18 rue de l église', '23120', 'GrandBourg', '2000-08-01'),
-('22', 'Duncombe', 'Claude', 'cduncombe', 'qf77j', '19 rue de la tour', '23100', 'La souteraine', '1987-10-10'),
-('23', 'Enault-Pascreau', 'Céline', 'cenault', 'y2qdu', '25 place de la gare', '23200', 'Gueret', '1995-09-01'),
-('24', 'Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01'),
-('25', 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10'),
-('26', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
-('27', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01'),
-('28', 'Chazal', 'Claire', 'cchazal', 'mdp', '48 boulevard milet', '44300', 'Nantes', '2015-09-09');
+(1, 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
+(2, 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23'),
+(3, 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12'),
+(4, 'Tusseau', 'Louis', 'ltusseau', 'ktp3s', '22 rue des Ternes', '46123', 'Gramat', '2000-05-01'),
+(5, 'Bentot', 'Pascal', 'pbentot', 'doyw1', '11 allée des Cerises', '46512', 'Bessines', '1992-07-09'),
+(6, 'Bioret', 'Luc', 'lbioret', 'hrjfs', '1 Avenue gambetta', '46000', 'Cahors', '1998-05-11'),
+(7, 'Bunisset', 'Francis', 'fbunisset', '4vbnd', '10 rue des Perles', '93100', 'Montreuil', '1987-10-21'),
+(8, 'Bunisset', 'Denise', 'dbunisset', 's1y1r', '23 rue Manin', '75019', 'paris', '2010-12-05'),
+(9, 'Cacheux', 'Bernard', 'bcacheux', 'uf7r3', '114 rue Blanche', '75017', 'Paris', '2009-11-12'),
+(10, 'Cadic', 'Eric', 'ecadic', '6u8dc', '123 avenue de la République', '75011', 'Paris', '2008-09-23'),
+(11, 'Charoze', 'Catherine', 'ccharoze', 'u817o', '100 rue Petit', '75019', 'Paris', '2005-11-12'),
+(12, 'Clepkens', 'Christophe', 'cclepkens', 'bw1us', '12 allée des Anges', '93230', 'Romainville', '2003-08-11'),
+(13, 'Cottin', 'Vincenne', 'vcottin', '2hoh9', '36 rue Des Roches', '93100', 'Monteuil', '2001-11-18'),
+(14, 'Daburon', 'François', 'fdaburon', '7oqpv', '13 rue de Chanzy', '94000', 'Créteil', '2002-02-11'),
+(15, 'De', 'Philippe', 'pde', 'gk9kx', '13 rue Barthes', '94000', 'Créteil', '2010-12-14'),
+(16, 'Debelle', 'Michel', 'mdebelle', 'od5rt', '181 avenue Barbusse', '93210', 'Rosny', '2006-11-23'),
+(17, 'Debelle', 'Jeanne', 'jdebelle', 'nvwqq', '134 allée des Joncs', '44000', 'Nantes', '2000-05-11'),
+(18, 'Debroise', 'Michel', 'mdebroise', 'sghkb', '2 Bld Jourdain', '44000', 'Nantes', '2001-04-17'),
+(19, 'Desmarquest', 'Nathalie', 'ndesmarquest', 'f1fob', '14 Place d Arc', '45000', 'Orléans', '2005-11-12'),
+(20, 'Desnost', 'Pierre', 'pdesnost', '4k2o5', '16 avenue des Cèdres', '23200', 'Guéret', '2001-02-05'),
+(21, 'Dudouit', 'Frédéric', 'fdudouit', '44im8', '18 rue de l église', '23120', 'GrandBourg', '2000-08-01'),
+(22, 'Duncombe', 'Claude', 'cduncombe', 'qf77j', '19 rue de la tour', '23100', 'La souteraine', '1987-10-10'),
+(23, 'Enault-Pascreau', 'Céline', 'cenault', 'y2qdu', '25 place de la gare', '23200', 'Gueret', '1995-09-01'),
+(24, 'Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01'),
+(25, 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10'),
+(26, 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
+(27, 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01'),
+(28, 'Chazal', 'Claire', 'cchazal', 'mdp', '48 boulevard milet', '44300', 'Nantes', '2015-09-09'),
+(29, 'eraud', 'clément', 'ceraud', 'plop', 'azeaiezaie', '44700', 'clementvil', '2000-08-20'),
+(30, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
+(31, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
+(32, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
+(33, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
+(34, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
+(35, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20'),
+(36, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20'),
+(37, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20');
 
 -- --------------------------------------------------------
 
@@ -274,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `rh` (
 --
 
 INSERT INTO `rh` (`id`) VALUES
-('28');
+(28);
 
 -- --------------------------------------------------------
 
@@ -284,41 +334,52 @@ INSERT INTO `rh` (`id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `visiteur` (
   `idPers` int(11) NOT NULL,
-  PRIMARY KEY (`idPers`)
+  `idDel` int(11) NOT NULL,
+  PRIMARY KEY (`idPers`),
+  KEY `idDel` (`idDel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `visiteur`
 --
 
-INSERT INTO `visiteur` (`idPers`) VALUES
-('1'),
-('2'),
-('3'),
-('4'),
-('5'),
-('6'),
-('7'),
-('8'),
-('9'),
-('10'),
-('11'),
-('12'),
-('13'),
-('14'),
-('15'),
-('16'),
-('17'),
-('18'),
-('19'),
-('20'),
-('21'),
-('22'),
-('23'),
-('24'),
-('25'),
-('26'),
-('27');
+INSERT INTO `visiteur` (`idPers`, `idDel`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(17, 1),
+(18, 1),
+(19, 1),
+(20, 1),
+(21, 1),
+(22, 1),
+(23, 1),
+(24, 1),
+(25, 1),
+(26, 1),
+(27, 1),
+(29, 1),
+(30, 1),
+(31, 1),
+(32, 1),
+(33, 1),
+(34, 1),
+(35, 1),
+(36, 1),
+(37, 1);
 
 --
 -- Contraintes pour les tables exportées
@@ -368,6 +429,7 @@ ALTER TABLE `medecin`
 -- Contraintes pour la table `visiteur`
 --
 ALTER TABLE `visiteur`
+  ADD CONSTRAINT `fk_pers_del` FOREIGN KEY (`idDel`) REFERENCES `délégué` (`idDel`),
   ADD CONSTRAINT `fk_pers_vist` FOREIGN KEY (`idPers`) REFERENCES `personnel` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

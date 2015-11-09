@@ -396,7 +396,7 @@ function modifierEtatFicheFrais($unMois, $unIdVisiteur, $unEtat) {
     mysqli_query(connecterServeurBD(),$requete);
 }
 
-function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp) {
+function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp, $delegue) {
 	$unNom=filtrerChainePourBD($unNom);
 	$unPrenom=filtrerChainePourBD($unPrenom);
 	$uneAdresse=filtrerChainePourBD($uneAdresse);
@@ -405,16 +405,39 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unLogin=filtrerChainePourBD($unLogin);
 	$unMdp=filtrerChainePourBD($unMdp);
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
+	$delegue=filtrerChainePourBD($delegue);
+	//Selectionne l'id maximum et rajoute 1
+	$id="SELECT MAX(id) as prochainId FROM personnel";
+	$resultat = mysqli_query(connecterServeurBD(),$id);
+	$ligne=mysqli_fetch_assoc($resultat);
+	$prochainId=$ligne["prochainId"];
+	$prochainId=$prochainId+1;
 	
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values(".$prochainId.",'" .$unNom."','" .$unPrenom."','".$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','".$uneDateEmbauche."')";
+	$requete2 = "insert into visiteur(idPers) values(".$prochainId.")";
 	
-	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values('a89','" .$unNom."','" .$unPrenom."','".$unLogin.",'" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."'," .$uneDateEmbauche.")";
-	$requete2 = "insert into visiteur(id) values('".$unId."')";
 
+	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	mysqli_query(connecterServeurBD(),$requete2)or die('Error SQL !'.$requete2);
+	
+	if($delegue=='delegue')
+	{
+		$requeteDelegue="insert into délégué (idDel,idRH) values(".$prochainId.",28)";
+		mysqli_query(connecterServeurBD(),$requeteDelegue) or die('Error SQL !'.$requeteDelegue);
+	}
+}
+function visualisationEntretiens(){
+	$requete="select nom,E.commentaires, E.notes,E.Date  from entretenir E, visiteur V, personnel P where E.idVisiteur=V.idPers and V.idPers=P.id";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
+function selectionneLeDelegue($idPers){
+	$requete="select nom from personnel P, visiteur V where V.idPers=".$idPers."and V.idDel=P.id";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
 
-
-
-	mysqli_query(connecterServeurBD(),$requete);	
-}  
+  
 
 	
 ?>
