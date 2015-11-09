@@ -518,6 +518,18 @@ function entretienDelegue($idDel){
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
 }
+<<<<<<< HEAD
+=======
+
+function entretienVisiteur($unId){
+	$requete="select * from entretenir where idVisiteur=".$unId." ";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
+
+
+
+>>>>>>> 56d5c9d77ac1fd72cb10789a8c01487e163d5d7b
 
 function selectionneRegions(){
 	$requete = 'SELECT id, region FROM zone';
@@ -531,6 +543,10 @@ function selectionneRegions(){
 }
   
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 56d5c9d77ac1fd72cb10789a8c01487e163d5d7b
 function idVisiteurSelonNom($unVisiteur){
 	$requete="select id from personnel where personnel.nom like '".$unVisiteur."'";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
@@ -561,6 +577,14 @@ function ajouterEntretien($idDel, $unVisiteur, $unCommentaire, $uneNote, $uneDat
 
 	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	
+	
+}
+
+function envoyerMail($unObjet, $unMessage){
+	ini_set("SMTP","smtp.gmail.com");
+	ini_set("smtp_port","25");
+	$to="contactrhgsb@gmail.com";
+	mail($to, $unObjet, $unMessage);
 	
 }
 
