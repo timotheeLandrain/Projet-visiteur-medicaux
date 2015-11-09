@@ -84,9 +84,10 @@
 			<center><INPUT type= "checkbox" name="delegue" id="delegue" value="delegue"> Le visiteur est un délégué</center>
 			</p>
 			</fieldset>
-			<?php
-			
-			?>
+<?php
+	require($repInclude . "_pied.inc.html");
+	require($repInclude . "_fin.inc.php");
+?>
 	  </div>
       <div class="piedForm">
       <p>

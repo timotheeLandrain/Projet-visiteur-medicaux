@@ -494,6 +494,13 @@ function entretienDelegue($idDel){
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
 }
+function entretienVisiteur($unId){
+	$requete="select * from entretenir where idVisiteur=".$unId." ";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
+
+
 function idVisiteurSelonNom($unVisiteur){
 	$requete="select id from personnel where personnel.nom like '".$unVisiteur."'";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
@@ -523,6 +530,14 @@ function ajouterEntretien($idDel, $unVisiteur, $unCommentaire, $uneNote, $uneDat
 
 	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	
+	
+}
+
+function envoyerMail($unObjet, $unMessage){
+	ini_set("SMTP","smtp.gmail.com");
+	ini_set("smtp_port","25");
+	$to="contactrhgsb@gmail.com";
+	mail($to, $unObjet, $unMessage);
 	
 }
 
