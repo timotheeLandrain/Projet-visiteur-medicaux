@@ -513,6 +513,7 @@ function entretienDelegue($idDel){
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
 }
+<<<<<<< HEAD
 
 function selectionneRegions(){
 	$requete = 'SELECT id, region FROM zone';
@@ -525,7 +526,39 @@ function selectionneRegions(){
 	return $liste;	
 }
   
+=======
+function idVisiteurSelonNom($unVisiteur){
+	$requete="select id from personnel where personnel.nom like '".$unVisiteur."'";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	$resultat=$resultat->fetch_row();
+	$unId=$resultat[0];
+	return $unId;
+}
+function ajouterEntretien($idDel, $unVisiteur, $unCommentaire, $uneNote, $uneDate) {
+	
+	$unVisiteur = filtrerChainePourBD($unVisiteur);
+	$unCommentaire= filtrerChainePourBD($unCommentaire);
+	$uneNote= filtrerChainePourBD($uneNote);
+	$uneDate = filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDate));
+	//Selectionne l'id maximum et rajoute 1
+	$id="SELECT MAX(id) as prochainId FROM entretenir";
+	$resultat = mysqli_query(connecterServeurBD(),$id);
+	$ligne=mysqli_fetch_assoc($resultat);
+	$prochainId=$ligne["prochainId"];
+	$prochainId=$prochainId+1;
+	
+	//Retrouve l'id du visiteur a partir de son nom
+	$idVisiteur=idVisiteurSelonNom($unVisiteur);
+	
+	
+	$requete = "insert into entretenir(id,idVisiteur,idDel,commentaires,notes,Date) values(".$prochainId.",".$idVisiteur.",".$idDel.",'" .$unCommentaire."',".$uneNote.",'".$uneDate."')";
+	
+>>>>>>> origin/master
 
+	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	
+	
+}
 
 	
 ?>
