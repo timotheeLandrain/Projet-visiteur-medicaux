@@ -528,7 +528,6 @@ function entretienVisiteur($unId){
 
 
 
-
 function selectionneRegions(){
 	$requete = 'SELECT id, region FROM zone';
 	$resultat = mysqli_query(connecterServeurBD(), $requete) or die('Error SQL !'.$requete);

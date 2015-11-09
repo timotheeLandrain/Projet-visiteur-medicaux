@@ -62,10 +62,15 @@
 		   <li class="smenu">
 		      <a href="tableauDeBord.php" title="suivi des visiteurs">Tableau de bord</a>
 		   </li>
+		   <?php
+		   if(!visiteurEstRh($idUser)){
+			?>
 		    <li class="smenu">
 		      <a href="gestionEntretien.php" title="Gestion des entretiens">Gestion des entretiens</a>
 		   </li>
+		   
 		   <?php
+		   }
 		   if(visiteurEstDelegue($idUser)=='delegue'){
 		   ?>
 				<li class="smenu">
