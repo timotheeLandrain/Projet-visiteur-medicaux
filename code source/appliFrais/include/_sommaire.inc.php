@@ -67,6 +67,10 @@
 		    <li class="smenu">
 		      <a href="gestionEntretien.php" title="Gestion des entretiens">Gestion des entretiens</a>
 		   </li>
+		   </li>
+		    <li class="smenu">
+		      <a href="visualisationEntretienRh.php" title="Visualisation des entretiens">Visualisation des entretiens</a>
+		   </li>
          </ul>
         <?php
           // affichage des éventuelles erreurs déjà détectées

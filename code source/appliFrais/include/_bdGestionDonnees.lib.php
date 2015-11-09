@@ -426,7 +426,19 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 		$requeteDelegue="insert into délégué (idDel,idRH) values(".$prochainId.",28)";
 		mysqli_query(connecterServeurBD(),$requeteDelegue) or die('Error SQL !'.$requeteDelegue);
 	}
-}  
+}
+function visualisationEntretiens(){
+	$requete="select nom,E.commentaires, E.notes,E.Date  from entretenir E, visiteur V, personnel P where E.idVisiteur=V.idPers and V.idPers=P.id";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
+function selectionneLeDelegue($idPers){
+	$requete="select nom from personnel P, visiteur V where V.idPers=".$idPers."and V.idDel=P.id";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
+
+  
 
 	
 ?>
