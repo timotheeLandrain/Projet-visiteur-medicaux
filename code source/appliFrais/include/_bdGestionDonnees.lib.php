@@ -99,16 +99,17 @@ function obtenirDetailVisiteur($unId) {
 }
 function visiteurEstDelegue($unId) {
 	$id = filtrerChainePourBD($unId);
-	$requete = "select * from delegue where idDel='".$unId."'" ;
+	$requete = "select * from delegue where idDel=".$unId."" ;
 	$resultat = mysqli_query(connecterServeurBD(),$requete) or die ('Erreur SQL !<br/>'.$requete.'<br/>');
-	$res= mysqli_fetch_array($resultat);
 	$type = "delegue";
-	if (mysqli_num_rows($res)==0){
+	if (mysqli_num_rows($resultat)==0){
 		$type="visiteur";
 	}
 
 	return $type;
 }
+
+
 
 function personnelEstRH($unId) {
 	$id = filtrerChainePourBD($unId);
@@ -436,7 +437,25 @@ function selectionneLeDelegue($idPers){
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
 }
+function selectionneLesVisiteurs($idDel){
+	$requete="select * from personnel P, visiteur V where P.id=V.idPers and V.idDel=".$idDel."";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+	
+}
 
+function obtenirVisiteurEntretien($idVisiteur){
+	$requete="select * from personnel P, entretenir E where P.id=E.idVisiteur and E.idVisiteur=".$idVisiteur."";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	$resultat=$resultat->fetch_row();
+	return $resultat;
+}
+
+function entretienDelegue($idDel){
+	$requete="select * from entretenir where idDel=".$idDel." ";
+	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
+	return $resultat;
+}
   
 
 	

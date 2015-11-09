@@ -16,13 +16,13 @@
           $nom = $lgUser['nom'];
           $prenom = $lgUser['prenom'];
 		  $type = "Visiteur médical";
-		  if (substr($idUser,0,1) == 'rh'){
+		  if (visiteurEstDelegue($idUser)=="delegue"){
+			  $type = "Visiteur médical Délégué";
+		  }
+		  elseif (personnelEstRh($idUser)){
 			  $type = "Ressources Humaines";
 		  }
-		  
-		  else if(strlen($idUser)> 3){
-			  $type = "Visiteur médical (délégué)";
-		  }
+		 
 	  
     ?>
         <h2>
