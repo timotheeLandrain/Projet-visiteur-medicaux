@@ -22,12 +22,9 @@
   $uneDateEmbauche = lireDonnee("dateembauche", "");
   $unMdp= lireDonnee("motdepasse", "");
   $delegue= lireDonnee("delegue","");
+  $idZone= lireDonnee("zone","")
 
-  if(!$unPrenom==""){
-	  $unLogin=$unPrenom[0].$unNom;
-	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp, $delegue); 
-	  
-  }
+  
  
 
 
@@ -38,8 +35,16 @@
       <h2>Ajouter un visiteur</h2>
 	  <form action="" method="post">
       <div class="corpsForm">
-	  
-          <input type="hidden" name="etape" value="validerSaisie" />
+	  <?php
+	  if(!$unPrenom==""){
+	  $unLogin=$unPrenom[0].$unNom;
+	  ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp, $delegue, $idZone); 
+	  ?>
+  
+          <p class="info">Le visiteur à bien été ajouté</p>
+	  <?php
+	  }
+	  ?>
           <fieldset>
             <legend>Données du visiteur à entrer
             </legend>
@@ -71,9 +76,13 @@
                      title="Entrez l'adresse du visiteur"/>
 			</p>
 			<p>
+			<label for="adresse">Zone géographique :</label>
+			  <?php echo selectionneRegions();?>
+			</p>
+			<p>
 			<label for="DateEmbauche">Date d'embauche :</label>
 			  <input type="text" id="dateembauche" name="dateembauche" size="15" maxlength="10" 
-                     title="Entrez la date d'embauche du visiteur"/>
+                     title="Entrez la date d'embauche du visiteur"/>(jj/mm/aaaa)
 			</p>
 			<p>
 			<label for="MotDePasse">Mot de Passe:</label>

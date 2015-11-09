@@ -397,7 +397,7 @@ function modifierEtatFicheFrais($unMois, $unIdVisiteur, $unEtat) {
     mysqli_query(connecterServeurBD(),$requete);
 }
 
-function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp, $delegue) {
+function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneDateEmbauche, $unLogin, $unMdp, $delegue,  $idZone) {
 	$unNom=filtrerChainePourBD($unNom);
 	$unPrenom=filtrerChainePourBD($unPrenom);
 	$uneAdresse=filtrerChainePourBD($uneAdresse);
@@ -407,6 +407,7 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$unMdp=filtrerChainePourBD($unMdp);
 	$uneDateEmbauche=filtrerChainePourBD(convertirDateFrancaisVersAnglais($uneDateEmbauche));
 	$delegue=filtrerChainePourBD($delegue);
+	$idZone=filtrerChainePourBD($idZone);
 	//Selectionne l'id maximum et rajoute 1
 	$id="SELECT MAX(id) as prochainId FROM personnel";
 	$resultat = mysqli_query(connecterServeurBD(),$id);
@@ -414,19 +415,34 @@ function ajouterVisiteur($unNom, $unPrenom, $uneAdresse, $uneVille, $unCP, $uneD
 	$prochainId=$ligne["prochainId"];
 	$prochainId=$prochainId+1;
 	
-	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche) values(".$prochainId.",'" .$unNom."','" .$unPrenom."','".$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','".$uneDateEmbauche."')";
-	$requete2 = "insert into visiteur(idPers) values(".$prochainId.")";
+	$requete = "insert into personnel(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche,idZone) values(".$prochainId.",'" .$unNom."','" .$unPrenom."','".$unLogin."','" .$unMdp."','" .$uneAdresse."','" .$unCP."','" .$uneVille."','".$uneDateEmbauche."',".$idZone.")";
+	
 	
 
 	mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
-	mysqli_query(connecterServeurBD(),$requete2)or die('Error SQL !'.$requete2);
+	
+	
+	
 	
 	if($delegue=='delegue')
 	{
-		$requeteDelegue="insert into delegue (idDel,idRH) values(".$prochainId.",28)";
+		$idRh = obtenirIdUserConnecte() ;
+		$requeteDelegue="insert into delegue (idDel,idRH) values(".$prochainId.",".$idRh.")";
 		mysqli_query(connecterServeurBD(),$requeteDelegue) or die('Error SQL !'.$requeteDelegue);
+		$affectation="insert into visiteur(idPers,idDel) values(".$prochainId.",".$prochainId.")";
+		mysqli_query(connecterServeurBD(),$affectation) or die('Error SQL !'.$affectation);
+	}
+	else{
+		$requeteTrouverDelegue="select distinct id from personnel p, visiteur v, delegue d where p.id=d.idDel and P.idZone=".$idZone."";
+		$resultat=mysqli_query(connecterServeurBD(),$requeteTrouverDelegue) or die('Error SQL !'.$requeteTrouverDelegue);
+		$ligne=mysqli_fetch_assoc($resultat);
+		$idDel=$ligne['id'];
+		$affectation="insert into visiteur(idPers,idDel) values(".$prochainId.",".$idDel.")";
+		mysqli_query(connecterServeurBD(),$affectation) or die('Error SQL !'.$affectation);
 	}
 }
+
+
 function visualisationEntretiens(){
 	$requete="select nom,E.commentaires, E.notes,E.Date  from entretenir E, visiteur V, personnel P where E.idVisiteur=V.idPers and V.idPers=P.id";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
@@ -478,7 +494,10 @@ function selectionVisiteurs(){
 	return $liste;
 }  
 
-function supprimerVisiteur(){
+function supprimerVisiteur($unId){
+	$requete="delete from personnel where id=".$unId."";
+	$resultat = mysqli_query(connecterServeurBD(), $requete) or die('Error SQL !'.$requete);
+	
 	
 }
 
@@ -493,6 +512,17 @@ function entretienDelegue($idDel){
 	$requete="select * from entretenir where idDel=".$idDel." ";
 	$resultat=mysqli_query(connecterServeurBD(),$requete) or die('Error SQL !'.$requete);
 	return $resultat;
+}
+
+function selectionneRegions(){
+	$requete = 'SELECT id, region FROM zone';
+	$resultat = mysqli_query(connecterServeurBD(), $requete) or die('Error SQL !'.$requete);
+	$liste="<select name='zone'>";
+	while ($data = mysqli_fetch_array($resultat)) {
+		$liste.= "<option value=".$data['id'].">".$data['region']."</option>";
+	}
+	$liste.='</select>';
+	return $liste;	
 }
   
 
