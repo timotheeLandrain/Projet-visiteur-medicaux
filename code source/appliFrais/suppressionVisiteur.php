@@ -13,10 +13,22 @@
   }
   require($repInclude . "_entete.inc.html");
   require($repInclude . "_sommaire.inc.php");
-  $unId = lireDonnee("id", "");
+  
+  $etape=lireDonnee("etape","demanderSaisie");
+  $unId = lireDonnee("visiteur", "");
+ 
+  
  ?> 
  <div id="contenu">
       <h2>Suppression d'un visiteur</h2>
+		<?php
+	   if(!$unId==""){
+		supprimerVisiteur($unId);
+		?>
+      <p class="info">Le visiteur sélectionné à bien été supprimé</p>        
+	<?php
+    }   
+	?>
 	   <form action="" method="post">
 	  <?php
 	  echo selectionVisiteurs()

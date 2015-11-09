@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 09 Novembre 2015 à 10:31
+-- Généré le :  Lun 09 Novembre 2015 à 15:24
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -45,10 +45,10 @@ INSERT INTO `cabinet` (`idCabinet`, `rue`, `ville`, `codePostal`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `délégué`
+-- Structure de la table `delegue`
 --
 
-CREATE TABLE IF NOT EXISTS `délégué` (
+CREATE TABLE IF NOT EXISTS `delegue` (
   `idDel` int(11) NOT NULL,
   `idRH` int(11) NOT NULL,
   PRIMARY KEY (`idDel`),
@@ -56,13 +56,18 @@ CREATE TABLE IF NOT EXISTS `délégué` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `délégué`
+-- Contenu de la table `delegue`
 --
 
-INSERT INTO `délégué` (`idDel`, `idRH`) VALUES
+INSERT INTO `delegue` (`idDel`, `idRH`) VALUES
 (1, 28),
 (12, 28),
-(37, 28);
+(37, 28),
+(41, 28),
+(50, 28),
+(51, 28),
+(52, 28),
+(53, 28);
 
 -- --------------------------------------------------------
 
@@ -88,7 +93,8 @@ CREATE TABLE IF NOT EXISTS `entretenir` (
 
 INSERT INTO `entretenir` (`id`, `idVisiteur`, `idDel`, `commentaires`, `notes`, `Date`) VALUES
 (1, 3, 12, 'Entretien salariale', '', '2015-11-02'),
-(2, 29, 37, 'Faute professionel', '', '2015-11-19');
+(2, 29, 37, 'Faute professionel', '', '2015-11-19'),
+(3, 6, 12, 'bla', 'pouet', '2016-01-15');
 
 -- --------------------------------------------------------
 
@@ -138,7 +144,8 @@ INSERT INTO `fichefrais` (`idVisiteur`, `mois`, `nbJustificatifs`, `montantValid
 (2, '201510', 0, NULL, '2015-11-09', 'CL'),
 (2, '201511', 0, NULL, '2015-11-09', 'CR'),
 (17, '201505', 0, NULL, '2015-05-05', 'CR'),
-(17, '201509', 0, NULL, '2015-09-09', 'CR');
+(17, '201509', 0, NULL, '2015-09-09', 'CR'),
+(28, '201511', 0, NULL, '2015-11-09', 'CR');
 
 -- --------------------------------------------------------
 
@@ -202,7 +209,11 @@ INSERT INTO `lignefraisforfait` (`idVisiteur`, `mois`, `idFraisForfait`, `quanti
 (17, '201509', 'ETP', 0),
 (17, '201509', 'KM', 0),
 (17, '201509', 'NUI', 0),
-(17, '201509', 'REP', 0);
+(17, '201509', 'REP', 0),
+(28, '201511', 'ETP', 0),
+(28, '201511', 'KM', 0),
+(28, '201511', 'NUI', 0),
+(28, '201511', 'REP', 0);
 
 -- --------------------------------------------------------
 
@@ -219,14 +230,15 @@ CREATE TABLE IF NOT EXISTS `lignefraishorsforfait` (
   `montant` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idVisiteur` (`idVisiteur`,`mois`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `lignefraishorsforfait`
 --
 
 INSERT INTO `lignefraishorsforfait` (`id`, `idVisiteur`, `mois`, `libelle`, `date`, `montant`) VALUES
-(1, 0, '201509', 'la fiche pas frais', '2015-08-02', '355.00');
+(1, 0, '201509', 'la fiche pas frais', '2015-08-02', '355.00'),
+(2, 28, '201511', 'la fiche pas frais', '2015-08-02', '355.00');
 
 -- --------------------------------------------------------
 
@@ -262,51 +274,64 @@ CREATE TABLE IF NOT EXISTS `personnel` (
   `cp` char(5) DEFAULT NULL,
   `ville` char(30) DEFAULT NULL,
   `dateEmbauche` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `idZone` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idZone` (`idZone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `personnel`
 --
 
-INSERT INTO `personnel` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`) VALUES
-(1, 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
-(2, 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23'),
-(3, 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12'),
-(4, 'Tusseau', 'Louis', 'ltusseau', 'ktp3s', '22 rue des Ternes', '46123', 'Gramat', '2000-05-01'),
-(5, 'Bentot', 'Pascal', 'pbentot', 'doyw1', '11 allée des Cerises', '46512', 'Bessines', '1992-07-09'),
-(6, 'Bioret', 'Luc', 'lbioret', 'hrjfs', '1 Avenue gambetta', '46000', 'Cahors', '1998-05-11'),
-(7, 'Bunisset', 'Francis', 'fbunisset', '4vbnd', '10 rue des Perles', '93100', 'Montreuil', '1987-10-21'),
-(8, 'Bunisset', 'Denise', 'dbunisset', 's1y1r', '23 rue Manin', '75019', 'paris', '2010-12-05'),
-(9, 'Cacheux', 'Bernard', 'bcacheux', 'uf7r3', '114 rue Blanche', '75017', 'Paris', '2009-11-12'),
-(10, 'Cadic', 'Eric', 'ecadic', '6u8dc', '123 avenue de la République', '75011', 'Paris', '2008-09-23'),
-(11, 'Charoze', 'Catherine', 'ccharoze', 'u817o', '100 rue Petit', '75019', 'Paris', '2005-11-12'),
-(12, 'Clepkens', 'Christophe', 'cclepkens', 'bw1us', '12 allée des Anges', '93230', 'Romainville', '2003-08-11'),
-(13, 'Cottin', 'Vincenne', 'vcottin', '2hoh9', '36 rue Des Roches', '93100', 'Monteuil', '2001-11-18'),
-(14, 'Daburon', 'François', 'fdaburon', '7oqpv', '13 rue de Chanzy', '94000', 'Créteil', '2002-02-11'),
-(15, 'De', 'Philippe', 'pde', 'gk9kx', '13 rue Barthes', '94000', 'Créteil', '2010-12-14'),
-(16, 'Debelle', 'Michel', 'mdebelle', 'od5rt', '181 avenue Barbusse', '93210', 'Rosny', '2006-11-23'),
-(17, 'Debelle', 'Jeanne', 'jdebelle', 'nvwqq', '134 allée des Joncs', '44000', 'Nantes', '2000-05-11'),
-(18, 'Debroise', 'Michel', 'mdebroise', 'sghkb', '2 Bld Jourdain', '44000', 'Nantes', '2001-04-17'),
-(19, 'Desmarquest', 'Nathalie', 'ndesmarquest', 'f1fob', '14 Place d Arc', '45000', 'Orléans', '2005-11-12'),
-(20, 'Desnost', 'Pierre', 'pdesnost', '4k2o5', '16 avenue des Cèdres', '23200', 'Guéret', '2001-02-05'),
-(21, 'Dudouit', 'Frédéric', 'fdudouit', '44im8', '18 rue de l église', '23120', 'GrandBourg', '2000-08-01'),
-(22, 'Duncombe', 'Claude', 'cduncombe', 'qf77j', '19 rue de la tour', '23100', 'La souteraine', '1987-10-10'),
-(23, 'Enault-Pascreau', 'Céline', 'cenault', 'y2qdu', '25 place de la gare', '23200', 'Gueret', '1995-09-01'),
-(24, 'Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01'),
-(25, 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10'),
-(26, 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
-(27, 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01'),
-(28, 'Chazal', 'Claire', 'cchazal', 'mdp', '48 boulevard milet', '44300', 'Nantes', '2015-09-09'),
-(29, 'eraud', 'clément', 'ceraud', 'plop', 'azeaiezaie', '44700', 'clementvil', '2000-08-20'),
-(30, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
-(31, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
-(32, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
-(33, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
-(34, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20'),
-(35, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20'),
-(36, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20'),
-(37, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20');
+INSERT INTO `personnel` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`, `idZone`) VALUES
+(1, 'Villechalane', 'Louis', 'lvillachane', 'jux7g', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21', 22),
+(2, 'Andre', 'David', 'dandre', 'oppg5', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23', NULL),
+(3, 'Bedos', 'Christian', 'cbedos', 'gmhxd', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12', NULL),
+(5, 'Bentot', 'Pascal', 'pbentot', 'doyw1', '11 allée des Cerises', '46512', 'Bessines', '1992-07-09', NULL),
+(6, 'Bioret', 'Luc', 'lbioret', 'hrjfs', '1 Avenue gambetta', '46000', 'Cahors', '1998-05-11', NULL),
+(7, 'Bunisset', 'Francis', 'fbunisset', '4vbnd', '10 rue des Perles', '93100', 'Montreuil', '1987-10-21', NULL),
+(8, 'Bunisset', 'Denise', 'dbunisset', 's1y1r', '23 rue Manin', '75019', 'paris', '2010-12-05', NULL),
+(9, 'Cacheux', 'Bernard', 'bcacheux', 'uf7r3', '114 rue Blanche', '75017', 'Paris', '2009-11-12', NULL),
+(10, 'Cadic', 'Eric', 'ecadic', '6u8dc', '123 avenue de la République', '75011', 'Paris', '2008-09-23', NULL),
+(11, 'Charoze', 'Catherine', 'ccharoze', 'u817o', '100 rue Petit', '75019', 'Paris', '2005-11-12', NULL),
+(12, 'Clepkens', 'Christophe', 'cclepkens', 'bw1us', '12 allée des Anges', '93230', 'Romainville', '2003-08-11', 1),
+(13, 'Cottin', 'Vincenne', 'vcottin', '2hoh9', '36 rue Des Roches', '93100', 'Monteuil', '2001-11-18', NULL),
+(14, 'Daburon', 'François', 'fdaburon', '7oqpv', '13 rue de Chanzy', '94000', 'Créteil', '2002-02-11', NULL),
+(15, 'De', 'Philippe', 'pde', 'gk9kx', '13 rue Barthes', '94000', 'Créteil', '2010-12-14', NULL),
+(16, 'Debelle', 'Michel', 'mdebelle', 'od5rt', '181 avenue Barbusse', '93210', 'Rosny', '2006-11-23', NULL),
+(17, 'Debelle', 'Jeanne', 'jdebelle', 'nvwqq', '134 allée des Joncs', '44000', 'Nantes', '2000-05-11', NULL),
+(18, 'Debroise', 'Michel', 'mdebroise', 'sghkb', '2 Bld Jourdain', '44000', 'Nantes', '2001-04-17', NULL),
+(19, 'Desmarquest', 'Nathalie', 'ndesmarquest', 'f1fob', '14 Place d Arc', '45000', 'Orléans', '2005-11-12', NULL),
+(20, 'Desnost', 'Pierre', 'pdesnost', '4k2o5', '16 avenue des Cèdres', '23200', 'Guéret', '2001-02-05', NULL),
+(21, 'Dudouit', 'Frédéric', 'fdudouit', '44im8', '18 rue de l église', '23120', 'GrandBourg', '2000-08-01', NULL),
+(22, 'Duncombe', 'Claude', 'cduncombe', 'qf77j', '19 rue de la tour', '23100', 'La souteraine', '1987-10-10', NULL),
+(23, 'Enault-Pascreau', 'Céline', 'cenault', 'y2qdu', '25 place de la gare', '23200', 'Gueret', '1995-09-01', NULL),
+(24, 'Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01', NULL),
+(25, 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10', NULL),
+(26, 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01', NULL),
+(27, 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01', NULL),
+(28, 'Chazal', 'Claire', 'cchazal', 'mdp', '48 boulevard milet', '44300', 'Nantes', '2015-09-09', NULL),
+(29, 'eraud', 'clément', 'ceraud', 'plop', 'azeaiezaie', '44700', 'clementvil', '2000-08-20', NULL),
+(34, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20', NULL),
+(35, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20', NULL),
+(36, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20', NULL),
+(37, 'landrain', 'timothee', 'tlandrain', 'plop', 'blabla', '44300', 'nantes', '2000-08-20', NULL),
+(38, 'picard', 'clément', 'cpicard', 'RODO', 'azeaiezaie', '44700', 'clementvil', '2015-09-21', NULL),
+(39, 'picard', 'clément', 'cpicard', 'RODO', 'azeaiezaie', '44700', 'clementvil', '2015-09-21', NULL),
+(40, 'veslin', 'benjamin', 'bveslin', 'plop', 'rue du benjamin', '44500', 'benjaminville', '2000-08-20', 1),
+(41, 'angeli', 'martin', 'mangeli', 'plop', 'ploplo', '44703', 'martincity', '2000-08-20', 1),
+(42, 'boutin', 'christine', 'cboutin', 'blabla', '44 boulevard des poilus', '55000', 'nantes', '2000-08-20', 16),
+(43, 'dupond', 'jean', 'jdupond', 'eraud', '44 boulevard des poilus', '88900', 'st nazaore', '2000-08-20', 9),
+(44, 'dupond', 'jean', 'jdupond', 'eraud', '44 boulevard des poilus', '88900', 'st nazaore', '2000-08-20', 9),
+(45, 'dupond', 'jean', 'jdupond', 'eraud', '44 boulevard des poilus', '88900', 'st nazaore', '2000-08-20', 9),
+(46, 'veslin', 'benjamin', 'bveslin', 'blabla', 'rue du benjamin', '44500', 'benjaminville', '1993-08-20', 18),
+(47, 'dupond', 'jean', 'jdupond', 'eraud', '44 boulevard des poilus', '88900', 'st nazaore', '2000-08-20', 9),
+(48, 'picard', 'clément', 'cpicard', 'plop', 'azeaiezaie', '44700', 'clementvil', '2000-08-20', 1),
+(49, 'landrain', 'timothee', 'tlandrain', 'eraud', 'blabla', '44300', 'nantes', '1993-08-20', 7),
+(50, 'landrain', 'timothee', 'tlandrain', 'eraud', 'blabla', '44300', 'nantes', '1993-08-20', 7),
+(51, 'landrain', 'timothee', 'tlandrain', 'eraud', 'blabla', '44300', 'nantes', '1993-08-20', 7),
+(52, 'dupond', 'jean', 'jdupond', 'benjamin', '44 boulevard des poilus', '88900', 'st nazaore', '2000-08-20', 21),
+(53, 'Letallec', 'George', 'GLetallec', 'blabla', '25 rue des pissenlits', '44700', 'st etienne', '2015-09-21', 18);
 
 -- --------------------------------------------------------
 
@@ -334,7 +359,7 @@ INSERT INTO `rh` (`id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `visiteur` (
   `idPers` int(11) NOT NULL,
-  `idDel` int(11) NOT NULL,
+  `idDel` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPers`),
   KEY `idDel` (`idDel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -344,10 +369,12 @@ CREATE TABLE IF NOT EXISTS `visiteur` (
 --
 
 INSERT INTO `visiteur` (`idPers`, `idDel`) VALUES
+(38, NULL),
+(39, NULL),
+(40, NULL),
 (1, 1),
 (2, 1),
 (3, 1),
-(4, 1),
 (5, 1),
 (6, 1),
 (7, 1),
@@ -372,32 +399,71 @@ INSERT INTO `visiteur` (`idPers`, `idDel`) VALUES
 (26, 1),
 (27, 1),
 (29, 1),
-(30, 1),
-(31, 1),
-(32, 1),
-(33, 1),
 (34, 1),
 (35, 1),
-(36, 1),
-(37, 1);
+(36, 12),
+(37, 12),
+(41, 12),
+(52, 52),
+(53, 53);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `zone`
+--
+
+CREATE TABLE IF NOT EXISTS `zone` (
+  `id` int(11) NOT NULL,
+  `region` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `zone`
+--
+
+INSERT INTO `zone` (`id`, `region`) VALUES
+(1, 'Alsace'),
+(2, 'Aquitaine'),
+(3, 'Basse-Normandie'),
+(4, 'Bourgogne'),
+(5, 'Centre'),
+(6, 'Champagne-Ardenne'),
+(7, 'Corse'),
+(8, 'Franche-Compté'),
+(9, 'Haute-Normandie'),
+(10, 'Ile-de-France'),
+(11, 'Languedoc-Roussillon'),
+(12, 'Limousin'),
+(13, 'Lorraine'),
+(14, 'Midi-Pyrénées'),
+(15, 'Nord-Pas-de-Calais'),
+(16, 'Pays de la Loire'),
+(17, 'Picardie'),
+(18, 'Poitou-Charentes'),
+(19, 'Provence-Alpes-Côte d''Azur'),
+(20, 'Rhone-Alpes'),
+(21, 'Auvergne'),
+(22, 'Bretagne');
 
 --
 -- Contraintes pour les tables exportées
 --
 
 --
--- Contraintes pour la table `délégué`
+-- Contraintes pour la table `delegue`
 --
-ALTER TABLE `délégué`
-  ADD CONSTRAINT `fk_rh_delegue` FOREIGN KEY (`idRH`) REFERENCES `rh` (`id`),
-  ADD CONSTRAINT `fk_visiteur_delegue` FOREIGN KEY (`idDel`) REFERENCES `visiteur` (`idPers`);
+ALTER TABLE `delegue`
+  ADD CONSTRAINT `fk_personnel_delegue` FOREIGN KEY (`idDel`) REFERENCES `personnel` (`id`),
+  ADD CONSTRAINT `fk_rh_delegue` FOREIGN KEY (`idRH`) REFERENCES `rh` (`id`);
 
 --
 -- Contraintes pour la table `entretenir`
 --
 ALTER TABLE `entretenir`
-  ADD CONSTRAINT `fk_delegue_entretenir` FOREIGN KEY (`idDel`) REFERENCES `délégué` (`idDel`),
-  ADD CONSTRAINT `fk_visiteur_entretenir` FOREIGN KEY (`idVisiteur`) REFERENCES `visiteur` (`idPers`);
+  ADD CONSTRAINT `fk_delegue_entretenir` FOREIGN KEY (`idDel`) REFERENCES `delegue` (`idDel`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_visiteur_entretenir` FOREIGN KEY (`idVisiteur`) REFERENCES `visiteur` (`idPers`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `fichefrais`
@@ -426,11 +492,17 @@ ALTER TABLE `medecin`
   ADD CONSTRAINT `fk_visiteur_cabinet` FOREIGN KEY (`idVisiteur`) REFERENCES `visiteur` (`idPers`);
 
 --
+-- Contraintes pour la table `personnel`
+--
+ALTER TABLE `personnel`
+  ADD CONSTRAINT `fk_personnel_zone` FOREIGN KEY (`idZone`) REFERENCES `zone` (`id`);
+
+--
 -- Contraintes pour la table `visiteur`
 --
 ALTER TABLE `visiteur`
-  ADD CONSTRAINT `fk_pers_del` FOREIGN KEY (`idDel`) REFERENCES `délégué` (`idDel`),
-  ADD CONSTRAINT `fk_pers_vist` FOREIGN KEY (`idPers`) REFERENCES `personnel` (`id`);
+  ADD CONSTRAINT `fk_pers_del` FOREIGN KEY (`idDel`) REFERENCES `delegue` (`idDel`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_pers_vist` FOREIGN KEY (`idPers`) REFERENCES `personnel` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
